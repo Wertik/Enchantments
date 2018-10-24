@@ -1,13 +1,21 @@
 package me.wertik.enchants.commands;
 
 import me.wertik.enchants.Main;
-import me.wertik.enchants.enchantments.FurnaceEnchantment;
+import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor {
+
+    private EnchantManager enchantManager;
+    private Main plugin;
+
+    public Commands() {
+        plugin = Main.getInstance();
+        enchantManager = plugin.getEnchantManager();
+    }
 
     /*
      * Commands:
@@ -29,8 +37,8 @@ public class Commands implements CommandExecutor {
             Player p = (Player) sender;
 
             if (args[0].equalsIgnoreCase("addlore")) {
-                p.getInventory().setItemInMainHand(Main.getInstance().getEnchantManager().enchantItem(p.getInventory().getItemInMainHand(), new FurnaceEnchantment()));
-                p.sendMessage("§3Enchanted!");
+                enchantManager.enchantItem(p.getInventory().getItemInMainHand(), enchantManager.getEnchantByName(args[1]));
+                p.sendMessage("§3Enchanted! At least it should..");
             }
         }
         return false;

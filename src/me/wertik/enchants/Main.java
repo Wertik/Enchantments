@@ -1,8 +1,10 @@
 package me.wertik.enchants;
 
 import me.wertik.enchants.commands.Commands;
+import me.wertik.enchants.handlers.DataHandler;
 import me.wertik.enchants.handlers.EnchantManager;
 import me.wertik.enchants.listeners.BlockBreak;
+import me.wertik.enchants.listeners.EntityDamage;
 import me.wertik.enchants.utils.Utils;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,6 +15,7 @@ public class Main extends JavaPlugin {
     private ConfigLoader configLoader;
     private Utils utils;
     private EnchantManager enchantManager;
+    private DataHandler dataHandler;
 
     public static Main getInstance() {
         return instance;
@@ -62,19 +65,22 @@ public class Main extends JavaPlugin {
         configLoader = new ConfigLoader();
         utils = new Utils();
         enchantManager = new EnchantManager();
+        dataHandler = new DataHandler();
 
         console.sendMessage("§aClasses loaded");
-
-        configLoader.loadYamls();
-
-        console.sendMessage("§aFiles loaded");
 
         enchantManager.loadEnchantments();
 
         console.sendMessage("§aEnchantments loaded");
 
+        configLoader.loadYamls();
+        dataHandler.loadYamls();
+
+        console.sendMessage("§aFiles loaded");
+
         getCommand("enchants").setExecutor(new Commands());
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamage(), this);
 
         console.sendMessage("§aListeners and commands registered");
 
@@ -90,6 +96,7 @@ public class Main extends JavaPlugin {
         console.sendMessage("§f----------------------------");
 
         // Do stuff
+        console.sendMessage("§cNothing to disable. Why is this segment even here?");
 
         console.sendMessage("§f----------------------------");
         console.sendMessage("§6Done... bye cruel world.");
@@ -105,5 +112,9 @@ public class Main extends JavaPlugin {
 
     public EnchantManager getEnchantManager() {
         return enchantManager;
+    }
+
+    public DataHandler getDataHandler() {
+        return dataHandler;
     }
 }

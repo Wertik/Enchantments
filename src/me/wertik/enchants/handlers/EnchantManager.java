@@ -1,7 +1,9 @@
 package me.wertik.enchants.handlers;
 
 import me.wertik.enchants.Main;
-import me.wertik.enchants.enchantments.FurnaceEnchantment;
+import me.wertik.enchants.enchantments.blockbreak.Furnace;
+import me.wertik.enchants.enchantments.entitydamage.BonusDamage;
+import me.wertik.enchants.enchantments.entitydamage.ThorStrike;
 import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +23,9 @@ public class EnchantManager {
     }
 
     public void loadEnchantments() {
-        enchantments.add(new FurnaceEnchantment());
+        enchantments.add(new Furnace());
+        enchantments.add(new BonusDamage());
+        enchantments.add(new ThorStrike());
     }
 
     public List<Enchantment> getEnchantments() {
@@ -31,10 +35,17 @@ public class EnchantManager {
     public Enchantment getEnchantByLoreLine(String line, String type) {
 
         for (Enchantment enchant : enchantments) {
-            if (enchant.lore().equals(line) && enchant.type().equals(type))
+            if (enchant.line().equals(line) && enchant.type().equals(type))
                 return enchant;
         }
+        return null;
+    }
 
+    public Enchantment getEnchantByName(String name) {
+        for (Enchantment enchant : enchantments) {
+            if (enchant.name().equals(name))
+                return enchant;
+        }
         return null;
     }
 
@@ -46,7 +57,7 @@ public class EnchantManager {
             return false;
 
         for (Enchantment enchant : enchantments) {
-            if (getLoreLine(item.getItemMeta().getLore()).equals(enchant.lore()))
+            if (getLoreLine(item.getItemMeta().getLore()).equals(enchant.line()))
                 return true;
         }
         return false;
@@ -66,7 +77,7 @@ public class EnchantManager {
         ItemMeta itemMeta = item.getItemMeta();
         List<String> lore = new ArrayList<String>();
 
-        lore.add(enchant.lore());
+        lore.add(enchant.line());
 
         if (itemMeta.hasLore()) {
             lore.addAll(itemMeta.getLore());

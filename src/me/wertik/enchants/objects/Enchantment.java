@@ -1,18 +1,39 @@
 package me.wertik.enchants.objects;
 
+import me.wertik.enchants.Main;
+import me.wertik.enchants.handlers.DataHandler;
+
 import java.util.List;
 
 public abstract class Enchantment {
 
-    public abstract String lore();
+    private DataHandler dataHandler;
+    private Main plugin;
 
-    public abstract List<String> enchantableItemTypes();
+    public Enchantment() {
+        plugin = Main.getInstance();
+        dataHandler = plugin.getDataHandler();
+    }
 
-    public abstract List<String> workableBiomeTypes();
+    public String line() {
+        return dataHandler.getLoreLine(name());
+    }
 
-    public abstract List<String> workableRegionNames();
+    public List<String> enchantableItemTypes() {
+        return dataHandler.getEnchantableItemTypes(name());
+    }
 
-    public abstract String displayName();
+    public List<String> workableBiomeTypes() {
+        return dataHandler.getWorkableBiomeTypes(name());
+    }
+
+    public List<String> workableRegionNames() {
+        return dataHandler.getWorkableRegionNames(name());
+    }
+
+    public String displayName() {
+        return dataHandler.getDisplayName(name());
+    }
 
     public abstract String name();
 
