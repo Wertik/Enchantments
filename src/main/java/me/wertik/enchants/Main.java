@@ -1,16 +1,16 @@
-package main.java.me.wertik.enchants;
+package me.wertik.enchants;
 
-import main.java.me.wertik.enchants.commands.Commands;
-import main.java.me.wertik.enchants.enchantments.blockbreak.Furnace;
-import main.java.me.wertik.enchants.enchantments.entitydamage.BonusDamage;
-import main.java.me.wertik.enchants.enchantments.entitydamage.ThorStrike;
-import main.java.me.wertik.enchants.handlers.BookManager;
-import main.java.me.wertik.enchants.handlers.DataHandler;
-import main.java.me.wertik.enchants.handlers.EnchantManager;
-import main.java.me.wertik.enchants.listeners.Inventory;
-import main.java.me.wertik.enchants.listeners.enchantlisteners.BlockBreak;
-import main.java.me.wertik.enchants.listeners.enchantlisteners.EntityDamage;
-import main.java.me.wertik.enchants.utils.Utils;
+import me.wertik.enchants.commands.Commands;
+import me.wertik.enchants.enchantments.blockbreak.Furnace;
+import me.wertik.enchants.enchantments.entitydamage.BonusDamage;
+import me.wertik.enchants.enchantments.entitydamage.ThorStrike;
+import me.wertik.enchants.handlers.BookManager;
+import me.wertik.enchants.handlers.DataHandler;
+import me.wertik.enchants.handlers.EnchantManager;
+import me.wertik.enchants.listeners.Inventory;
+import me.wertik.enchants.listeners.enchantlisteners.BlockBreak;
+import me.wertik.enchants.listeners.enchantlisteners.EntityDamage;
+import me.wertik.enchants.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 

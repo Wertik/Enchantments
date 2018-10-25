@@ -1,9 +1,9 @@
-package main.java.me.wertik.enchants.listeners;
+package me.wertik.enchants.listeners;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.handlers.BookManager;
-import main.java.me.wertik.enchants.handlers.EnchantManager;
-import main.java.me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.handlers.BookManager;
+import me.wertik.enchants.handlers.EnchantManager;
+import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;

@@ -1,6 +1,6 @@
-package main.java.me.wertik.enchants;
+package me.wertik.enchants;
 
-import main.java.me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 

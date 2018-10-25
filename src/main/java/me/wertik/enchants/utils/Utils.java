@@ -1,4 +1,4 @@
-package main.java.me.wertik.enchants.utils;
+package me.wertik.enchants.utils;
 
 import org.bukkit.ChatColor;
 

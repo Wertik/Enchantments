@@ -1,9 +1,9 @@
-package main.java.me.wertik.enchants.handlers;
+package me.wertik.enchants.handlers;
 
-import main.java.me.wertik.enchants.ConfigLoader;
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.objects.Book;
-import main.java.me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.ConfigLoader;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.objects.Book;
+import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
