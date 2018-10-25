@@ -1,7 +1,9 @@
-main: main.java.me.wertik.enchants.Main
+main: me.wertik.enchants.Main
 author: Wertik1206
-version: 1.0.2.1
+version: 1.0.2.2
 name: Enchants
 commands:
   enchants:
+    description: Hmm...
+  ebook:
     description: Hmm...

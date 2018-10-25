@@ -97,6 +97,7 @@ public class Main extends JavaPlugin {
         info("§aFiles loaded");
 
         getCommand("enchants").setExecutor(new Commands());
+        getCommand("ebook").setExecutor(new Commands());
         // Enchant listeners
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new EntityDamage(), this);
@@ -105,7 +106,7 @@ public class Main extends JavaPlugin {
 
         info("§aListeners and commands registered");
 
-        info("§f-----------------" + "-----------");
+        info("§f----------------------------");
         info("§6Done... version §f" + getDescription().getVersion());
     }
 

@@ -2,8 +2,8 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.wertik.gacooldown</groupId>
-    <artifactId>PVPC_GACooldown</artifactId>
+    <groupId>me.wertik.enchants</groupId>
+    <artifactId>Enchants</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 

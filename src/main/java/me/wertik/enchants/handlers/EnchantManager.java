@@ -29,6 +29,16 @@ public class EnchantManager {
         return enchantments;
     }
 
+    public List<String> getEnchantNames() {
+        List<String> names = new ArrayList<>();
+
+        for (Enchantment enchant : enchantments) {
+            names.add(enchant.name());
+        }
+
+        return names;
+    }
+
     public Enchantment getEnchantByLoreLine(String line) {
 
         for (Enchantment enchant : enchantments) {
@@ -44,6 +54,40 @@ public class EnchantManager {
                 return enchant;
         }
         return null;
+    }
+
+    // Return enchants on an item
+    // TO-DO: rewrite for more enchants support
+
+    public List<Enchantment> getEnchantsOnItem(ItemStack item) {
+        List<Enchantment> enchants = new ArrayList<>();
+
+        enchants.add(getEnchantByLoreLine(getLoreLine(item.getItemMeta().getLore())));
+
+        return enchants;
+    }
+
+    // Remove enchant
+    // Rewrite for NBT
+
+    public ItemStack removeEnchant(ItemStack item) {
+        ItemMeta itemMeta = item.getItemMeta();
+
+        List<String> lore = itemMeta.getLore();
+
+        lore.remove(0);
+
+        itemMeta.setLore(lore);
+
+        item.setItemMeta(itemMeta);
+
+        return item;
+    }
+
+    // Rewrite for NBT, just a tryout
+
+    public ItemStack clearEnchants(ItemStack item) {
+        return removeEnchant(item);
     }
 
     // Is item enchanted?
