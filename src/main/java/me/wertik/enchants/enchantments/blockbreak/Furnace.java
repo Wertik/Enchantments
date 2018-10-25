@@ -2,10 +2,11 @@ package main.java.me.wertik.enchants.enchantments.blockbreak;
 
 import main.java.me.wertik.enchants.Main;
 import main.java.me.wertik.enchants.handlers.DataHandler;
-import main.java.me.wertik.enchants.objects.BlockBreakEnchantment;
+import main.java.me.wertik.enchants.objects.Enchantment;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class Furnace extends BlockBreakEnchantment {
+public class Furnace extends Enchantment {
 
     private DataHandler dataHandler;
     private Main plugin;
@@ -19,11 +20,11 @@ public class Furnace extends BlockBreakEnchantment {
         return "furnace";
     }
 
-    public String type() {
-        return "blockBreak";
+    public void onBlockBreak(BlockBreakEvent e) {
+
     }
 
-    public void onBlockBreak(BlockBreakEvent e) {
+    public void onDamage(EntityDamageByEntityEvent e) {
 
     }
 }

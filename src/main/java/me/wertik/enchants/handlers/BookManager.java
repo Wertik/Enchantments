@@ -2,13 +2,10 @@ package main.java.me.wertik.enchants.handlers;
 
 import main.java.me.wertik.enchants.ConfigLoader;
 import main.java.me.wertik.enchants.Main;
+import main.java.me.wertik.enchants.objects.Book;
 import main.java.me.wertik.enchants.objects.Enchantment;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.List;
 
 public class BookManager {
 
@@ -39,20 +36,9 @@ public class BookManager {
      *
      * */
 
-    public ItemStack getBook(Enchantment enchant) {
-
-        ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        ItemMeta itemMeta = book.getItemMeta();
-
-        List<String> lore = configLoader.getFinalStringList("Book.lore", enchant);
-        String name = configLoader.getFinalString("Book.name", enchant);
-
-        itemMeta.setDisplayName(belChar + name);
-        itemMeta.setLore(lore);
-
-        book.setItemMeta(itemMeta);
-
-        return book;
+    public Book getBook(ItemStack item) {
+        // TO-DO
+        return null;
     }
 
     public boolean isBook(ItemStack item) {
@@ -65,9 +51,9 @@ public class BookManager {
     public Enchantment getEnchantFromBook(ItemStack item) {
 
         for (Enchantment enchant : enchantManager.getEnchantments()) {
-            ItemStack book = getBook(enchant);
+            Book book = new Book(enchant);
 
-            if (book.isSimilar(item)) {
+            if (book.get().isSimilar(item)) {
                 return enchant;
             }
         }

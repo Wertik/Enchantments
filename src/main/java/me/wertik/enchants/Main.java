@@ -1,12 +1,15 @@
 package main.java.me.wertik.enchants;
 
 import main.java.me.wertik.enchants.commands.Commands;
+import main.java.me.wertik.enchants.enchantments.blockbreak.Furnace;
+import main.java.me.wertik.enchants.enchantments.entitydamage.BonusDamage;
+import main.java.me.wertik.enchants.enchantments.entitydamage.ThorStrike;
 import main.java.me.wertik.enchants.handlers.BookManager;
 import main.java.me.wertik.enchants.handlers.DataHandler;
 import main.java.me.wertik.enchants.handlers.EnchantManager;
-import main.java.me.wertik.enchants.listeners.BlockBreak;
-import main.java.me.wertik.enchants.listeners.EntityDamage;
 import main.java.me.wertik.enchants.listeners.Inventory;
+import main.java.me.wertik.enchants.listeners.enchantlisteners.BlockBreak;
+import main.java.me.wertik.enchants.listeners.enchantlisteners.EntityDamage;
 import main.java.me.wertik.enchants.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -80,7 +83,11 @@ public class Main extends JavaPlugin {
 
         info("§aClasses loaded");
 
-        enchantManager.loadEnchantments();
+        // TO-DO: Find a replacement for this
+
+        new Furnace().hook();
+        new ThorStrike().hook();
+        new BonusDamage().hook();
 
         info("§aEnchantments loaded");
 
@@ -90,8 +97,10 @@ public class Main extends JavaPlugin {
         info("§aFiles loaded");
 
         getCommand("enchants").setExecutor(new Commands());
+        // Enchant listeners
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new EntityDamage(), this);
+        // Book apply listener
         getServer().getPluginManager().registerEvents(new Inventory(), this);
 
         info("§aListeners and commands registered");
