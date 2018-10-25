@@ -1,8 +1,13 @@
 package me.wertik.enchants.handlers;
 
+import me.MrWener.Enchants.nbt.ItemNBTEditor;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagInt;
+import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -123,6 +128,7 @@ public class EnchantManager {
     public ItemStack enchantItem(ItemStack item, Enchantment enchant) {
 
         ItemMeta itemMeta = item.getItemMeta();
+
         List<String> lore = new ArrayList<String>();
 
         lore.add(enchant.line());
@@ -133,6 +139,9 @@ public class EnchantManager {
 
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
+
+        // Todo Call method that will write NBTTag to item!
+        item = ItemNBTEditor.writeNBT(item, "data", enchant.name());
 
         return item;
     }
