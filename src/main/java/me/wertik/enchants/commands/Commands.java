@@ -1,7 +1,8 @@
-package me.wertik.enchants.commands;
+package main.java.me.wertik.enchants.commands;
 
-import me.wertik.enchants.Main;
-import me.wertik.enchants.handlers.EnchantManager;
+import main.java.me.wertik.enchants.Main;
+import main.java.me.wertik.enchants.handlers.BookManager;
+import main.java.me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,12 +10,14 @@ import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor {
 
-    private EnchantManager enchantManager;
     private Main plugin;
+    private EnchantManager enchantManager;
+    private BookManager bookManager;
 
     public Commands() {
         plugin = Main.getInstance();
         enchantManager = plugin.getEnchantManager();
+        bookManager = plugin.getBookManager();
     }
 
     /*
@@ -39,6 +42,9 @@ public class Commands implements CommandExecutor {
             if (args[0].equalsIgnoreCase("addlore")) {
                 enchantManager.enchantItem(p.getInventory().getItemInMainHand(), enchantManager.getEnchantByName(args[1]));
                 p.sendMessage("§3Enchanted! At least it should..");
+            } else if (args[0].equalsIgnoreCase("getbook")) {
+                p.getInventory().addItem(bookManager.getBook(enchantManager.getEnchantByName(args[1])));
+                p.sendMessage("§3Book given?");
             }
         }
         return false;

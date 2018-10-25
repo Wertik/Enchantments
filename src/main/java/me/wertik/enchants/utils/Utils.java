@@ -1,17 +1,14 @@
-package me.wertik.enchants.utils;
+package main.java.me.wertik.enchants.utils;
 
 import org.bukkit.ChatColor;
 
 public class Utils {
 
+    // I'll use that,.. mby...
+    // No ideas at all.
+
     // Translate color codes.
     public String format(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
-
-    // For future placeholder support.
-    public String parse(String msg) {
-        return null;
-    }
-
 }

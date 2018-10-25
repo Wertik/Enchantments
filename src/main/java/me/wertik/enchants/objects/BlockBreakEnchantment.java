@@ -1,4 +1,4 @@
-package me.wertik.enchants.objects;
+package main.java.me.wertik.enchants.objects;
 
 import org.bukkit.event.block.BlockBreakEvent;
 

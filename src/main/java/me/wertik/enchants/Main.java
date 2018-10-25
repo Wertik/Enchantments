@@ -1,12 +1,14 @@
-package me.wertik.enchants;
+package main.java.me.wertik.enchants;
 
-import me.wertik.enchants.commands.Commands;
-import me.wertik.enchants.handlers.DataHandler;
-import me.wertik.enchants.handlers.EnchantManager;
-import me.wertik.enchants.listeners.BlockBreak;
-import me.wertik.enchants.listeners.EntityDamage;
-import me.wertik.enchants.utils.Utils;
-import org.bukkit.command.ConsoleCommandSender;
+import main.java.me.wertik.enchants.commands.Commands;
+import main.java.me.wertik.enchants.handlers.BookManager;
+import main.java.me.wertik.enchants.handlers.DataHandler;
+import main.java.me.wertik.enchants.handlers.EnchantManager;
+import main.java.me.wertik.enchants.listeners.BlockBreak;
+import main.java.me.wertik.enchants.listeners.EntityDamage;
+import main.java.me.wertik.enchants.listeners.Inventory;
+import main.java.me.wertik.enchants.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -16,6 +18,8 @@ public class Main extends JavaPlugin {
     private Utils utils;
     private EnchantManager enchantManager;
     private DataHandler dataHandler;
+    public String pluginPrefix = "";
+    private BookManager bookManager;
 
     public static Main getInstance() {
         return instance;
@@ -46,19 +50,25 @@ public class Main extends JavaPlugin {
      * - entityDamage by player
      * - playerBowEvent or ArrowLand?
      * - some fish event, idk the name
+     * - interact event
      *
      * Other ideas:
      * - create enchants applicable on everything, if you have them in your inventory and a certain event happens, take action
      *
      *
+     * Application:
+     * - a book, success/destroy
+     * - anvil? inventory click?
+     *
      * */
 
     @Override
     public void onEnable() {
-        ConsoleCommandSender console = getServer().getConsoleSender();
 
-        console.sendMessage("§6Enabling Enchantments by §fWertik1206§6!");
-        console.sendMessage("§f----------------------------");
+        pluginPrefix = "§r[Enchants] ";
+
+        info("§6Enabling Enchantments by §fWertik1206§6!");
+        info("§f----------------------------");
 
         // Load stuff
         instance = this;
@@ -66,40 +76,41 @@ public class Main extends JavaPlugin {
         utils = new Utils();
         enchantManager = new EnchantManager();
         dataHandler = new DataHandler();
+        bookManager = new BookManager();
 
-        console.sendMessage("§aClasses loaded");
+        info("§aClasses loaded");
 
         enchantManager.loadEnchantments();
 
-        console.sendMessage("§aEnchantments loaded");
+        info("§aEnchantments loaded");
 
         configLoader.loadYamls();
         dataHandler.loadYamls();
 
-        console.sendMessage("§aFiles loaded");
+        info("§aFiles loaded");
 
         getCommand("enchants").setExecutor(new Commands());
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new EntityDamage(), this);
+        getServer().getPluginManager().registerEvents(new Inventory(), this);
 
-        console.sendMessage("§aListeners and commands registered");
+        info("§aListeners and commands registered");
 
-        console.sendMessage("§f----------------------------");
-        console.sendMessage("§6Done...");
+        info("§f-----------------" + "-----------");
+        info("§6Done... version §f" + getDescription().getVersion());
     }
 
     @Override
     public void onDisable() {
-        ConsoleCommandSender console = getServer().getConsoleSender();
 
-        console.sendMessage("§6Disabling Enchantments by §fWertik1206§6!");
-        console.sendMessage("§f----------------------------");
+        info("§6Disabling Enchantments by §fWertik1206§6!");
+        info("§f----------------------------");
 
         // Do stuff
-        console.sendMessage("§cNothing to disable. Why is this segment even here?");
+        info("§cNothing to disable. Why is this segment even here?");
 
-        console.sendMessage("§f----------------------------");
-        console.sendMessage("§6Done... bye cruel world.");
+        info("§f----------------------------");
+        info("§6Done... bye cruel world.");
     }
 
     public ConfigLoader getConfigLoader() {
@@ -110,11 +121,23 @@ public class Main extends JavaPlugin {
         return utils;
     }
 
+    public BookManager getBookManager() {
+        return bookManager;
+    }
+
     public EnchantManager getEnchantManager() {
         return enchantManager;
     }
 
     public DataHandler getDataHandler() {
         return dataHandler;
+    }
+
+    private void info(String msg) {
+        getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('§', pluginPrefix + msg));
+    }
+
+    public String getPluginPrefix() {
+        return pluginPrefix;
     }
 }

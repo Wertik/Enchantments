@@ -1,10 +1,10 @@
-package me.wertik.enchants.handlers;
+package main.java.me.wertik.enchants.handlers;
 
-import me.wertik.enchants.Main;
-import me.wertik.enchants.enchantments.blockbreak.Furnace;
-import me.wertik.enchants.enchantments.entitydamage.BonusDamage;
-import me.wertik.enchants.enchantments.entitydamage.ThorStrike;
-import me.wertik.enchants.objects.Enchantment;
+import main.java.me.wertik.enchants.Main;
+import main.java.me.wertik.enchants.enchantments.blockbreak.Furnace;
+import main.java.me.wertik.enchants.enchantments.entitydamage.BonusDamage;
+import main.java.me.wertik.enchants.enchantments.entitydamage.ThorStrike;
+import main.java.me.wertik.enchants.objects.Enchantment;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -63,8 +63,8 @@ public class EnchantManager {
         return false;
     }
 
-    public boolean isEnchantable(ItemStack item) {
-        return false;
+    public boolean isEnchantable(Enchantment enchant, ItemStack item) {
+        return enchant.enchantableItemTypes().contains(item.getType().toString());
     }
 
     public String getLoreLine(List<String> lore) {

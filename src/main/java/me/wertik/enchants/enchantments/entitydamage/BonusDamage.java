@@ -1,6 +1,6 @@
-package me.wertik.enchants.enchantments.entitydamage;
+package main.java.me.wertik.enchants.enchantments.entitydamage;
 
-import me.wertik.enchants.objects.EntityDamageEnchantment;
+import main.java.me.wertik.enchants.objects.EntityDamageEnchantment;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class BonusDamage extends EntityDamageEnchantment {

@@ -1,14 +1,14 @@
-package me.wertik.enchants.objects;
+package main.java.me.wertik.enchants.objects;
 
-import me.wertik.enchants.Main;
-import me.wertik.enchants.handlers.DataHandler;
+import main.java.me.wertik.enchants.Main;
+import main.java.me.wertik.enchants.handlers.DataHandler;
 
 import java.util.List;
 
 public abstract class Enchantment {
 
-    private DataHandler dataHandler;
     private Main plugin;
+    private DataHandler dataHandler;
 
     public Enchantment() {
         plugin = Main.getInstance();
@@ -38,4 +38,8 @@ public abstract class Enchantment {
     public abstract String name();
 
     public abstract String type();
+
+    public List<String> description() {
+        return dataHandler.getDescription(name());
+    }
 }

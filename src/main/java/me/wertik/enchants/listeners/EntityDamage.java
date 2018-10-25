@@ -1,8 +1,8 @@
-package me.wertik.enchants.listeners;
+package main.java.me.wertik.enchants.listeners;
 
-import me.wertik.enchants.Main;
-import me.wertik.enchants.handlers.EnchantManager;
-import me.wertik.enchants.objects.EntityDamageEnchantment;
+import main.java.me.wertik.enchants.Main;
+import main.java.me.wertik.enchants.handlers.EnchantManager;
+import main.java.me.wertik.enchants.objects.EntityDamageEnchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +24,7 @@ public class EntityDamage implements Listener {
         if (e.getDamager() instanceof Player) {
 
             EntityDamageEnchantment enchant = (EntityDamageEnchantment) enchantManager.getEnchantByLoreLine(enchantManager.getLoreLine(((Player) e.getDamager()).getInventory().getItemInMainHand().getItemMeta().getLore()), "entityDamage");
-            enchant.onDamage((Player) e.getDamager(), e.getEntity());
+            enchant.onDamage(e);
 
         }
     }

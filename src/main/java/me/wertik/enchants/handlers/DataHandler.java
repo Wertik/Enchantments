@@ -1,8 +1,8 @@
-package me.wertik.enchants.handlers;
+package main.java.me.wertik.enchants.handlers;
 
-import me.wertik.enchants.Main;
-import me.wertik.enchants.objects.Enchantment;
-import me.wertik.enchants.utils.Utils;
+import main.java.me.wertik.enchants.Main;
+import main.java.me.wertik.enchants.objects.Enchantment;
+import main.java.me.wertik.enchants.utils.Utils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -36,9 +36,9 @@ public class DataHandler {
             try {
                 enchantsYaml.save(enchantsFile);
             } catch (IOException e) {
-                plugin.getServer().getConsoleSender().sendMessage("§cCould not save the file §f" + enchantsFile.getName() + "§c, that's bad tho.");
+                plugin.getServer().getConsoleSender().sendMessage(plugin.getPluginPrefix() + "§cCould not save the file §f" + enchantsFile.getName() + "§c, that's bad tho.");
             }
-            plugin.getServer().getConsoleSender().sendMessage("§aGenerated default §f" + enchantsFile.getName());
+            plugin.getServer().getConsoleSender().sendMessage(plugin.getPluginPrefix() + "§aGenerated default §f" + enchantsFile.getName());
         } else
             enchantsYaml = YamlConfiguration.loadConfiguration(enchantsFile);
 
@@ -62,6 +62,9 @@ public class DataHandler {
             if (!section.contains("enchantable-item-types"))
                 section.set("enchantable-item-types", new ArrayList<String>());
 
+            if (!section.contains("description"))
+                section.set("description", new ArrayList<String>());
+
             ConfigurationSection conditions;
 
             if (!enchantsYaml.contains("conditions"))
@@ -79,7 +82,7 @@ public class DataHandler {
         try {
             enchantsYaml.save(enchantsFile);
         } catch (IOException e) {
-            plugin.getServer().getConsoleSender().sendMessage("§cCould not save the file §f" + enchantsFile.getName() + "§c, that's bad tho.");
+            plugin.getServer().getConsoleSender().sendMessage(plugin.getPluginPrefix() + "§cCould not save the file §f" + enchantsFile.getName() + "§c, that's bad tho.");
         }
     }
 
@@ -92,6 +95,9 @@ public class DataHandler {
      * <name>:
      *   display-name:""
      *   lore-line: "§cFurnace enchantment"
+     *   description:
+     *   - ''
+     *   - ''
      *   enchantable-item-types:
      *   - DIAMOND_PICKAXE
      *   conditions:
@@ -120,5 +126,9 @@ public class DataHandler {
 
     public List<String> getWorkableBiomeTypes(String name) {
         return enchantsYaml.getStringList(name + ".conditions.biome-types");
+    }
+
+    public List<String> getDescription(String name) {
+        return enchantsYaml.getStringList(name + ".description");
     }
 }

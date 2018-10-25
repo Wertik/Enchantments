@@ -1,8 +1,8 @@
-package me.wertik.enchants.enchantments.blockbreak;
+package main.java.me.wertik.enchants.enchantments.blockbreak;
 
-import me.wertik.enchants.Main;
-import me.wertik.enchants.handlers.DataHandler;
-import me.wertik.enchants.objects.BlockBreakEnchantment;
+import main.java.me.wertik.enchants.Main;
+import main.java.me.wertik.enchants.handlers.DataHandler;
+import main.java.me.wertik.enchants.objects.BlockBreakEnchantment;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class Furnace extends BlockBreakEnchantment {
