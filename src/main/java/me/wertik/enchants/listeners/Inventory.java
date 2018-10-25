@@ -42,7 +42,6 @@ public class Inventory implements Listener {
 
                         e.getWhoClicked().sendMessage("§3Enchanting..");
                         enchantManager.enchantItem(item, enchant);
-                        e.setCursor(null);
                         e.setCancelled(true);
                     }
                 }
