@@ -1,9 +1,6 @@
 package main.java.me.wertik.enchants.handlers;
 
 import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.enchantments.blockbreak.Furnace;
-import main.java.me.wertik.enchants.enchantments.entitydamage.BonusDamage;
-import main.java.me.wertik.enchants.enchantments.entitydamage.ThorStrike;
 import main.java.me.wertik.enchants.objects.Enchantment;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -22,20 +19,20 @@ public class EnchantManager {
         plugin = Main.getInstance();
     }
 
-    public void loadEnchantments() {
-        enchantments.add(new Furnace());
-        enchantments.add(new BonusDamage());
-        enchantments.add(new ThorStrike());
+    // Not sure how to make this easier, need the list of available enchants.
+
+    public void hookEnchant(Enchantment enchant) {
+        enchantments.add(enchant);
     }
 
     public List<Enchantment> getEnchantments() {
         return enchantments;
     }
 
-    public Enchantment getEnchantByLoreLine(String line, String type) {
+    public Enchantment getEnchantByLoreLine(String line) {
 
         for (Enchantment enchant : enchantments) {
-            if (enchant.line().equals(line) && enchant.type().equals(type))
+            if (enchant.line().equals(line))
                 return enchant;
         }
         return null;
@@ -48,6 +45,8 @@ public class EnchantManager {
         }
         return null;
     }
+
+    // Is item enchanted?
 
     public boolean isEnchanted(ItemStack item) {
 
@@ -63,9 +62,14 @@ public class EnchantManager {
         return false;
     }
 
+    // Is it enchantable?
+
     public boolean isEnchantable(Enchantment enchant, ItemStack item) {
         return enchant.enchantableItemTypes().contains(item.getType().toString());
     }
+
+    // Return line from lore, where the enchant is written.
+    // TO-DO: replace by NBT data
 
     public String getLoreLine(List<String> lore) {
         // Config option: check whole lore or the zeroth line only

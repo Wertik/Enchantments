@@ -1,9 +1,10 @@
 package main.java.me.wertik.enchants.enchantments.entitydamage;
 
-import main.java.me.wertik.enchants.objects.EntityDamageEnchantment;
+import main.java.me.wertik.enchants.objects.Enchantment;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class BonusDamage extends EntityDamageEnchantment {
+public class BonusDamage extends Enchantment {
 
     public void onDamage(EntityDamageByEntityEvent e) {
 
@@ -13,7 +14,7 @@ public class BonusDamage extends EntityDamageEnchantment {
         return "rekt";
     }
 
-    public String type() {
-        return "entityDamage";
+    public void onBlockBreak(BlockBreakEvent e) {
+
     }
 }

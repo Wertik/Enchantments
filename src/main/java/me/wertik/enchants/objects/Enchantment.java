@@ -2,6 +2,9 @@ package main.java.me.wertik.enchants.objects;
 
 import main.java.me.wertik.enchants.Main;
 import main.java.me.wertik.enchants.handlers.DataHandler;
+import main.java.me.wertik.enchants.handlers.EnchantManager;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.List;
 
@@ -9,10 +12,12 @@ public abstract class Enchantment {
 
     private Main plugin;
     private DataHandler dataHandler;
+    private EnchantManager enchantManager;
 
     public Enchantment() {
         plugin = Main.getInstance();
         dataHandler = plugin.getDataHandler();
+        enchantManager = plugin.getEnchantManager();
     }
 
     public String line() {
@@ -37,9 +42,15 @@ public abstract class Enchantment {
 
     public abstract String name();
 
-    public abstract String type();
-
     public List<String> description() {
         return dataHandler.getDescription(name());
+    }
+
+    public abstract void onBlockBreak(BlockBreakEvent e);
+
+    public abstract void onDamage(EntityDamageByEntityEvent e);
+
+    public void hook() {
+        enchantManager.hookEnchant(this);
     }
 }

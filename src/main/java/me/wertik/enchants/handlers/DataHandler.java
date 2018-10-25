@@ -92,8 +92,10 @@ public class DataHandler {
      *
      * Loading the stuff from enchants.yml
      *
+     * format:
+     *
      * <name>:
-     *   display-name:""
+     *   display-name: ""
      *   lore-line: "§cFurnace enchantment"
      *   description:
      *   - ''
@@ -101,9 +103,9 @@ public class DataHandler {
      *   enchantable-item-types:
      *   - DIAMOND_PICKAXE
      *   conditions:
-     *     regions:
+     *     regions: (not done)
      *     - __global__
-     *     biome-types:
+     *     biome-types: (not done)
      *     - PLAINS
      *
      * */

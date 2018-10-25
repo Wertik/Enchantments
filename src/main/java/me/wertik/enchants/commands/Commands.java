@@ -3,6 +3,7 @@ package main.java.me.wertik.enchants.commands;
 import main.java.me.wertik.enchants.Main;
 import main.java.me.wertik.enchants.handlers.BookManager;
 import main.java.me.wertik.enchants.handlers.EnchantManager;
+import main.java.me.wertik.enchants.objects.Book;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class Commands implements CommandExecutor {
     }
 
     /*
-     * Commands:
+     * Commands: (planned)
      *
      * hand == mainHandItem
      * - ignores air (empty hand)
@@ -43,7 +44,7 @@ public class Commands implements CommandExecutor {
                 enchantManager.enchantItem(p.getInventory().getItemInMainHand(), enchantManager.getEnchantByName(args[1]));
                 p.sendMessage("§3Enchanted! At least it should..");
             } else if (args[0].equalsIgnoreCase("getbook")) {
-                p.getInventory().addItem(bookManager.getBook(enchantManager.getEnchantByName(args[1])));
+                p.getInventory().addItem(new Book(enchantManager.getEnchantByName(args[1])).get());
                 p.sendMessage("§3Book given?");
             }
         }

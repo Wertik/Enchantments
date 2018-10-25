@@ -1,13 +1,14 @@
 package main.java.me.wertik.enchants.enchantments.entitydamage;
 
 import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.objects.EntityDamageEnchantment;
+import main.java.me.wertik.enchants.objects.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class ThorStrike extends EntityDamageEnchantment {
+public class ThorStrike extends Enchantment {
 
     private Main plugin;
 
@@ -32,7 +33,7 @@ public class ThorStrike extends EntityDamageEnchantment {
         }
     }
 
-    public String type() {
-        return "entityDamage";
+    public void onBlockBreak(BlockBreakEvent e) {
+        e.getPlayer().sendMessage("Sword is not good for breaking blocks..");
     }
 }
