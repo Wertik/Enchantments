@@ -1,8 +1,8 @@
-package main.java.me.wertik.enchants.handlers;
+package me.wertik.enchants.handlers;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.objects.Enchantment;
-import main.java.me.wertik.enchants.utils.Utils;
+import me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.utils.Utils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 

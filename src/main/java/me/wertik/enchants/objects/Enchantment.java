@@ -1,8 +1,8 @@
-package main.java.me.wertik.enchants.objects;
+package me.wertik.enchants.objects;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.handlers.DataHandler;
-import main.java.me.wertik.enchants.handlers.EnchantManager;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.handlers.DataHandler;
+import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 

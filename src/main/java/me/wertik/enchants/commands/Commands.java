@@ -1,9 +1,9 @@
-package main.java.me.wertik.enchants.commands;
+package me.wertik.enchants.commands;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.handlers.BookManager;
-import main.java.me.wertik.enchants.handlers.EnchantManager;
-import main.java.me.wertik.enchants.objects.Book;
+import me.wertik.enchants.objects.Book;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.handlers.BookManager;
+import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

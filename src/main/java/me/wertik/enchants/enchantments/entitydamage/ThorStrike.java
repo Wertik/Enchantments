@@ -1,7 +1,8 @@
-package main.java.me.wertik.enchants.enchantments.entitydamage;
+package me.wertik.enchants.enchantments.entitydamage;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.objects.Enchantment;
+
+import me.wertik.enchants.Main;
+import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

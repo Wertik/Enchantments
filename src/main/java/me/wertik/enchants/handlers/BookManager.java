@@ -1,17 +1,16 @@
-package main.java.me.wertik.enchants.handlers;
+package me.wertik.enchants.handlers;
 
-import main.java.me.wertik.enchants.ConfigLoader;
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.objects.Book;
-import main.java.me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 public class BookManager {
 
     private Main plugin;
-    private ConfigLoader configLoader;
-    private EnchantManager enchantManager;
+    private me.wertik.enchants.ConfigLoader configLoader;
+    private me.wertik.enchants.handlers.EnchantManager enchantManager;
     private String belChar;
 
     public BookManager() {
@@ -36,7 +35,7 @@ public class BookManager {
      *
      * */
 
-    public Book getBook(ItemStack item) {
+    public me.wertik.enchants.objects.Book getBook(ItemStack item) {
         // TO-DO
         return null;
     }
@@ -50,8 +49,8 @@ public class BookManager {
 
     public Enchantment getEnchantFromBook(ItemStack item) {
 
-        for (Enchantment enchant : enchantManager.getEnchantments()) {
-            Book book = new Book(enchant);
+        for (me.wertik.enchants.objects.Enchantment enchant : enchantManager.getEnchantments()) {
+            me.wertik.enchants.objects.Book book = new me.wertik.enchants.objects.Book(enchant);
 
             if (book.get().isSimilar(item)) {
                 return enchant;

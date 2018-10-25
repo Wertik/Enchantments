@@ -1,8 +1,8 @@
-package main.java.me.wertik.enchants.listeners.enchantlisteners;
+package me.wertik.enchants.listeners.enchantlisteners;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.handlers.EnchantManager;
-import main.java.me.wertik.enchants.objects.Enchantment;
+
+import me.wertik.enchants.Main;
+import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -24,7 +24,7 @@ public class BlockBreak implements Listener {
         ItemStack tool = e.getPlayer().getInventory().getItemInMainHand();
 
         if (enchantManager.isEnchanted(tool)) {
-            Enchantment enchant = enchantManager.getEnchantByLoreLine(enchantManager.getLoreLine(tool.getItemMeta().getLore()));
+            me.wertik.enchants.objects.Enchantment enchant = enchantManager.getEnchantByLoreLine(enchantManager.getLoreLine(tool.getItemMeta().getLore()));
             enchant.onBlockBreak(e);
         }
     }

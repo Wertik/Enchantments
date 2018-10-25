@@ -1,9 +1,11 @@
-package main.java.me.wertik.enchants.objects;
+package me.wertik.enchants.objects;
 
-import main.java.me.wertik.enchants.ConfigLoader;
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.handlers.BookManager;
-import main.java.me.wertik.enchants.handlers.EnchantManager;
+import me.wertik.enchants.ConfigLoader;
+
+import me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.handlers.BookManager;
+import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -19,9 +21,9 @@ public class Book {
     private ConfigLoader configLoader;
 
     private String belChar;
-    private Enchantment enchant;
+    private me.wertik.enchants.objects.Enchantment enchant;
 
-    public Book(Enchantment enchant) {
+    public Book(me.wertik.enchants.objects.Enchantment enchant) {
         plugin = Main.getInstance();
         enchantManager = plugin.getEnchantManager();
         bookManager = plugin.getBookManager();

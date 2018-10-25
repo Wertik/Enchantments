@@ -1,6 +1,7 @@
-package main.java.me.wertik.enchants.enchantments.entitydamage;
+package me.wertik.enchants.enchantments.entitydamage;
 
-import main.java.me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 

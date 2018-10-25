@@ -1,12 +1,11 @@
-package main.java.me.wertik.enchants.enchantments.blockbreak;
+package me.wertik.enchants.enchantments.blockbreak;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.handlers.DataHandler;
-import main.java.me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.handlers.DataHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class Furnace extends Enchantment {
+public class Furnace extends me.wertik.enchants.objects.Enchantment {
 
     private DataHandler dataHandler;
     private Main plugin;

@@ -1,23 +1,22 @@
-package main.java.me.wertik.enchants;
+package me.wertik.enchants;
 
-import main.java.me.wertik.enchants.commands.Commands;
-import main.java.me.wertik.enchants.enchantments.blockbreak.Furnace;
-import main.java.me.wertik.enchants.enchantments.entitydamage.BonusDamage;
-import main.java.me.wertik.enchants.enchantments.entitydamage.ThorStrike;
-import main.java.me.wertik.enchants.handlers.BookManager;
-import main.java.me.wertik.enchants.handlers.DataHandler;
-import main.java.me.wertik.enchants.handlers.EnchantManager;
-import main.java.me.wertik.enchants.listeners.Inventory;
-import main.java.me.wertik.enchants.listeners.enchantlisteners.BlockBreak;
-import main.java.me.wertik.enchants.listeners.enchantlisteners.EntityDamage;
-import main.java.me.wertik.enchants.utils.Utils;
+import me.wertik.enchants.commands.Commands;
+import me.wertik.enchants.enchantments.blockbreak.Furnace;
+import me.wertik.enchants.enchantments.entitydamage.BonusDamage;
+import me.wertik.enchants.enchantments.entitydamage.ThorStrike;
+import me.wertik.enchants.handlers.BookManager;
+import me.wertik.enchants.handlers.DataHandler;
+import me.wertik.enchants.handlers.EnchantManager;
+import me.wertik.enchants.listeners.enchantlisteners.BlockBreak;
+import me.wertik.enchants.listeners.enchantlisteners.EntityDamage;
+import me.wertik.enchants.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
     private static Main instance;
-    private ConfigLoader configLoader;
+    private me.wertik.enchants.ConfigLoader configLoader;
     private Utils utils;
     private EnchantManager enchantManager;
     private DataHandler dataHandler;
@@ -75,7 +74,7 @@ public class Main extends JavaPlugin {
 
         // Load stuff
         instance = this;
-        configLoader = new ConfigLoader();
+        configLoader = new me.wertik.enchants.ConfigLoader();
         utils = new Utils();
         enchantManager = new EnchantManager();
         dataHandler = new DataHandler();
@@ -101,7 +100,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         getServer().getPluginManager().registerEvents(new EntityDamage(), this);
         // Book apply listener
-        getServer().getPluginManager().registerEvents(new Inventory(), this);
+        getServer().getPluginManager().registerEvents(new me.wertik.enchants.listeners.Inventory(), this);
 
         info("§aListeners and commands registered");
 
@@ -122,7 +121,7 @@ public class Main extends JavaPlugin {
         info("§6Done... bye cruel world.");
     }
 
-    public ConfigLoader getConfigLoader() {
+    public me.wertik.enchants.ConfigLoader getConfigLoader() {
         return configLoader;
     }
 

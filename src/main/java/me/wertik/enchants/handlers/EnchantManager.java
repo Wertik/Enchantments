@@ -1,7 +1,7 @@
-package main.java.me.wertik.enchants.handlers;
+package me.wertik.enchants.handlers;
 
-import main.java.me.wertik.enchants.Main;
-import main.java.me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.Main;
+import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
