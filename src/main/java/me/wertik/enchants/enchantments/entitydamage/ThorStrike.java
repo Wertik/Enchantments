@@ -7,6 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ThorStrike extends Enchantment {
 
@@ -31,6 +32,11 @@ public class ThorStrike extends Enchantment {
             player.getWorld().strikeLightningEffect(entity.getLocation());
             damageable.damage(10);
         }
+    }
+
+    @Override
+    public void onInteract(PlayerInteractEvent e) {
+
     }
 
     public void onBlockBreak(BlockBreakEvent e) {

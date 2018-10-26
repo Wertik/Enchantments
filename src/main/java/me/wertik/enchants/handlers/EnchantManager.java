@@ -1,17 +1,15 @@
 package me.wertik.enchants.handlers;
 
+import com.sun.istack.internal.NotNull;
 import me.MrWener.Enchants.nbt.ItemNBTEditor;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.NBTTagInt;
-import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EnchantManager {
@@ -62,22 +60,55 @@ public class EnchantManager {
     }
 
     // Return enchants on an item
-    // TO-DO: rewrite for more enchants support
+
+    /*
+     * NBT data info:
+     *
+     * key: "enchants"
+     * value: "[enchant1, enchant2]"
+     *
+     * */
 
     public List<Enchantment> getEnchantsOnItem(ItemStack item) {
         List<Enchantment> enchants = new ArrayList<>();
 
-        enchants.add(getEnchantByLoreLine(getLoreLine(item.getItemMeta().getLore())));
+        String NBTData = ItemNBTEditor.getNBT(item, "enchants");
+
+        NBTData = NBTData.replace("[", "");
+
+        NBTData = NBTData.replace("]", "");
+
+        String[] NBTDataList = NBTData.split(",");
+
+        List<String> enchantNames = new ArrayList<>(Arrays.asList(NBTDataList));
+
+        for (String enchantName : enchantNames) {
+            enchants.add(getEnchantByName(enchantName));
+        }
 
         return enchants;
     }
 
+    public List<String> getEnchantsOnItemInString(ItemStack item) {
+
+        String dataNBT = ItemNBTEditor.getNBT(item, "enchants");
+
+        dataNBT = dataNBT.replace("[", "");
+
+        dataNBT = dataNBT.replace("]", "");
+
+        String[] NBTDataList = dataNBT.split(",");
+
+        List<String> enchantNames = new ArrayList<>(Arrays.asList(NBTDataList));
+
+        return enchantNames;
+
+    }
+
     // Remove enchant
-    // Rewrite for NBT
 
-    public ItemStack removeEnchant(ItemStack item) {
+    public ItemStack removeEnchant(ItemStack item, Enchantment enchant) {
         ItemMeta itemMeta = item.getItemMeta();
-
         List<String> lore = itemMeta.getLore();
 
         lore.remove(0);
@@ -92,7 +123,8 @@ public class EnchantManager {
     // Rewrite for NBT, just a tryout
 
     public ItemStack clearEnchants(ItemStack item) {
-        return removeEnchant(item);
+        //return removeEnchant(item);
+        return null;
     }
 
     // Is item enchanted?
@@ -103,12 +135,7 @@ public class EnchantManager {
             return false;
         if (!item.getItemMeta().hasLore())
             return false;
-
-        for (Enchantment enchant : enchantments) {
-            if (getLoreLine(item.getItemMeta().getLore()).equals(enchant.line()))
-                return true;
-        }
-        return false;
+        return ItemNBTEditor.hasNBT(item);
     }
 
     // Is it enchantable?
@@ -117,31 +144,65 @@ public class EnchantManager {
         return enchant.enchantableItemTypes().contains(item.getType().toString());
     }
 
-    // Return line from lore, where the enchant is written.
-    // TO-DO: replace by NBT data
+    /**
+     * Enchants {@link @item} with {@link @enchant}.
+     *
+     * @param item    Item to enchant.. should be enchantable.
+     * @param enchant Enchant to put on the item.
+     * @return Return enchanted item, As new.
+     */
 
-    public String getLoreLine(List<String> lore) {
-        // Config option: check whole lore or the zeroth line only
-        return lore.get(0);
-    }
+    // Todo: config option: apply lore?
+    public ItemStack enchantItem(@NotNull ItemStack item, @NotNull Enchantment enchant) {
 
-    public ItemStack enchantItem(ItemStack item, Enchantment enchant) {
+        if (!isEnchanted(item)) {
 
-        ItemMeta itemMeta = item.getItemMeta();
+            // Add NBT
 
-        List<String> lore = new ArrayList<String>();
+            item = ItemNBTEditor.writeNBT(item, "enchants", enchant.name());
 
-        lore.add(enchant.line());
+            // Add lore
 
-        if (itemMeta.hasLore()) {
-            lore.addAll(itemMeta.getLore());
+            ItemMeta itemMeta = item.getItemMeta();
+
+            List<String> newLore = new ArrayList<>();
+
+            newLore.add(enchant.line());
+
+            if (itemMeta.hasLore()) {
+                List<String> lore = itemMeta.getLore();
+                newLore.addAll(lore);
+            }
+
+            itemMeta.setLore(newLore);
+            item.setItemMeta(itemMeta);
+
+        } else {
+
+            // Add NBT
+
+            List<String> enchantsToApply = getEnchantsOnItemInString(item);
+
+            enchantsToApply.add(enchant.name());
+
+            item = ItemNBTEditor.writeNBT(item, "enchants", enchantsToApply.toString());
+
+            // Add lore
+
+            ItemMeta itemMeta = item.getItemMeta();
+
+            List<String> newLore = new ArrayList<>();
+
+            newLore.add(enchant.line());
+
+            if (itemMeta.hasLore()) {
+                List<String> lore = itemMeta.getLore();
+                newLore.addAll(lore);
+            }
+
+            itemMeta.setLore(newLore);
+            item.setItemMeta(itemMeta);
         }
-
-        itemMeta.setLore(lore);
-        item.setItemMeta(itemMeta);
-
-        // Todo Call method that will write NBTTag to item!
-        item = ItemNBTEditor.writeNBT(item, "data", enchant.name());
 
         return item;
     }

@@ -5,7 +5,6 @@ import net.minecraft.server.v1_12_R1.NBTBase;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagInt;
 import net.minecraft.server.v1_12_R1.NBTTagString;
-import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
@@ -119,5 +118,19 @@ public class ItemNBTEditor {
             return CraftItemStack.asBukkitCopy(minecraftItemStack);
         }
         return item;
+    }
+
+    /**
+     * Checks if {@link @item} has NBT.
+     *
+     * @param item Item to check.
+     * @return boolean
+     */
+
+    public static boolean hasNBT(@NotNull ItemStack item) {
+
+        net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
+
+        return minecraftItemStack.hasTag();
     }
 }

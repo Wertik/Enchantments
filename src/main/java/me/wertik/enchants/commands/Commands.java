@@ -108,7 +108,7 @@ public class Commands implements CommandExecutor {
                             return false;
                         }
 
-                        Enchantment enchant = enchantManager.getEnchantByName(args[0]);
+                        Enchantment enchant = enchantManager.getEnchantByName(args[1]);
 
                         // Empty hand? q.q
                         if (p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
@@ -149,6 +149,12 @@ public class Commands implements CommandExecutor {
                                 return false;
                             }
 
+                            // Enchanted?
+                            if (!enchantManager.isEnchanted(p.getInventory().getItemInMainHand())) {
+                                p.sendMessage("§cItem is not enchanted.. ");
+                                return false;
+                            }
+
                             p.sendMessage("§6Enchants on your item:");
                             for (Enchantment enchant1 : enchantManager.getEnchantsOnItem(p.getInventory().getItemInMainHand())) {
                                 p.sendMessage("§f" + enchant1.name());
@@ -181,7 +187,7 @@ public class Commands implements CommandExecutor {
                         }
 
                         // Remove
-                        enchantManager.removeEnchant(p.getInventory().getItemInMainHand());
+                        //enchantManager.removeEnchant(p.getInventory().getItemInMainHand());
                         p.sendMessage("§6Done. It's gone.");
 
                         break;

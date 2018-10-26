@@ -5,6 +5,7 @@ import me.wertik.enchants.handlers.DataHandler;
 import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
@@ -49,6 +50,8 @@ public abstract class Enchantment {
     public abstract void onBlockBreak(BlockBreakEvent e);
 
     public abstract void onDamage(EntityDamageByEntityEvent e);
+
+    public abstract void onInteract(PlayerInteractEvent e);
 
     public void hook() {
         enchantManager.hookEnchant(this);
