@@ -1,7 +1,7 @@
 package me.wertik.enchants.handlers;
 
 import com.sun.istack.internal.NotNull;
-import me.MrWener.Enchants.nbt.ItemNBTEditor;
+import me.MrWener.Enchants.nbt.NBTEditor;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.Material;
@@ -72,7 +72,7 @@ public class EnchantManager {
     public List<Enchantment> getEnchantsOnItem(ItemStack item) {
         List<Enchantment> enchants = new ArrayList<>();
 
-        String NBTData = ItemNBTEditor.getNBT(item, "enchants");
+        String NBTData = NBTEditor.getNBT(item, "enchants");
 
         NBTData = NBTData.replace("[", "");
 
@@ -91,7 +91,7 @@ public class EnchantManager {
 
     public List<String> getEnchantsOnItemInString(ItemStack item) {
 
-        String dataNBT = ItemNBTEditor.getNBT(item, "enchants");
+        String dataNBT = NBTEditor.getNBT(item, "enchants");
 
         dataNBT = dataNBT.replace("[", "");
 
@@ -135,7 +135,7 @@ public class EnchantManager {
             return false;
         if (!item.getItemMeta().hasLore())
             return false;
-        return ItemNBTEditor.hasNBT(item);
+        return NBTEditor.hasNBT(item);
     }
 
     // Is it enchantable?
@@ -159,7 +159,7 @@ public class EnchantManager {
 
             // Add NBT
 
-            item = ItemNBTEditor.writeNBT(item, "enchants", enchant.name());
+            item = NBTEditor.writeNBT(item, "enchants", enchant.name());
 
             // Add lore
 
@@ -185,7 +185,7 @@ public class EnchantManager {
 
             enchantsToApply.add(enchant.name());
 
-            item = ItemNBTEditor.writeNBT(item, "enchants", enchantsToApply.toString());
+            item = NBTEditor.writeNBT(item, "enchants", enchantsToApply.toString());
 
             // Add lore
 
