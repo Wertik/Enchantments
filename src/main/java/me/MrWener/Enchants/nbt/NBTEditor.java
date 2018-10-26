@@ -3,18 +3,16 @@ package me.MrWener.Enchants.nbt;
 import com.sun.istack.internal.NotNull;
 import net.minecraft.server.v1_12_R1.NBTBase;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.NBTTagInt;
 import net.minecraft.server.v1_12_R1.NBTTagString;
-import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
-public class ItemNBTEditor {
+public class NBTEditor {
 
     /**
-     * Writes {@link @key} and {@link @value} to the {@link @item} NBT.
+     * Writes {@link @key} (key) and {@link @value} (value) to the {@link @item} (item's) NBT.
      *
      * @param item  Item that NBT Data's will be changed.
      * @param key   Key of NBT Compound.
@@ -26,43 +24,52 @@ public class ItemNBTEditor {
         net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbtTagCompound = minecraftItemStack.hasTag() ? minecraftItemStack.getTag() : new NBTTagCompound();
 
-        // Write to compound...
-        nbtTagCompound.set(key.toLowerCase().trim(), new NBTTagString(value.toLowerCase().trim()));
+        try {
+            // Write to compound...
+            nbtTagCompound.set(key.toLowerCase().trim(), new NBTTagString(value.toLowerCase().trim()));
 
-        // Save to ItemStack(Minecraft)
-        minecraftItemStack.setTag(nbtTagCompound);
-        return CraftItemStack.asBukkitCopy(minecraftItemStack);
+            // Save to ItemStack(Minecraft)
+            minecraftItemStack.setTag(nbtTagCompound);
+            return CraftItemStack.asBukkitCopy(minecraftItemStack);
+        } catch (Exception x) {
+            return item;
+        }
     }
 
     /**
-     * Writes {@link @key} and {@link @value} to the {@link @item} NBT.
+     * Writes {@link @key} (key) and {@link @value} (value) to the {@link @item} (item's) NBT.
      *
      * @param item  Item that NBT Data's will be changed.
      * @param key   Key of NBT Compound.
-     * @param value Value of NBT Compound.
-     * @return Edited item. As new.
+     * @param <T>  Generic thing
+     * @return ItemStack that NBT's will be changed
      */
-    public static ItemStack writeNBT(@NotNull ItemStack item, @NotNull String key, @NotNull int value) {
+    public static <T extends NBTBase> ItemStack writeNBT(@NotNull ItemStack item, @NotNull String key, @NotNull T value) {
         // Copy of ItemStack(Bukkit)
         net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbtTagCompound = minecraftItemStack.hasTag() ? minecraftItemStack.getTag() : new NBTTagCompound();
 
-        // Write to compound..
-        nbtTagCompound.set(key.toLowerCase().trim(), new NBTTagInt(value));
+        // write compound
+        try {
+            nbtTagCompound.set(key, value);
+            minecraftItemStack.setTag(nbtTagCompound);
 
-        // Save to ItemStack(Minecraft)
-        minecraftItemStack.setTag(nbtTagCompound);
-        return CraftItemStack.asBukkitCopy(minecraftItemStack);
+            return CraftItemStack.asBukkitCopy(minecraftItemStack);
+        } catch (Exception x) {
+            return item;
+        }
     }
 
     /**
-     * Gets NBT of {@link @item} that matches {@link @key}.
+     * Gets value from NBT compound that matches {@link @key} from {@link @item} NBT.
      *
      * @param item Item
      * @param key  Key
      * @return String value
+     * @throws NullPointerException when did found anything in NBTCompound of item.
      */
-    public static String getNBT(@NotNull ItemStack item, @NotNull String key) {
+
+    public static String getNBT(@NotNull ItemStack item, @NotNull String key) throws NullPointerException {
         // Copy of ItemStack(Bukkit)
         net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbtTagCompound = minecraftItemStack.hasTag() ? minecraftItemStack.getTag() : new NBTTagCompound();
@@ -71,23 +78,24 @@ public class ItemNBTEditor {
             NBTBase baseValue = nbtTagCompound.get(key.toLowerCase().trim());
             if (!Objects.isNull(baseValue)) {
                 NBTTagString value = (NBTTagString) baseValue;
+
                 return value.toString();
             }
         } catch (Exception x) {
-            return "";
+            return null;
         }
-        return "";
+        return null;
     }
 
     /**
-     * Gets NBT of {@link @item} that matches {@link @key}.
+     * Gets value from NBT compound that matches {@link @key} from {@link @item} NBT.
      *
-     * @param item Item
-     * @param key  Key
+     * @param item  Item
+     * @param key   Key
      * @param clazz Type of NBTBase
-     * @param <T>  ...
-     * @throws NullPointerException when did found anything with type {@link @clazz}
+     * @param <T>   ...
      * @return NBTBase child that you choose.
+     * @throws NullPointerException when did found anything in NBTCompound of item
      */
     public static <T extends NBTBase> T getNBT(@NotNull ItemStack item, @NotNull String key, Class<T> clazz) throws NullPointerException {
         // Copy of ItemStack(Bukkit)
