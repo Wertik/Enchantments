@@ -128,4 +128,18 @@ public class NBTEditor {
         }
         return item;
     }
+
+    /**
+     * Checks if {@link @item} has NBT.
+     *
+     * @param item Item to check.
+     * @return boolean
+     */
+
+    public static boolean hasNBT(@NotNull ItemStack item) {
+
+        net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
+
+        return minecraftItemStack.hasTag();
+    }
 }
