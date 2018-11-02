@@ -3,6 +3,7 @@ package me.wertik.enchants;
 import me.wertik.enchants.commands.Commands;
 import me.wertik.enchants.enchantments.blockbreak.Furnace;
 import me.wertik.enchants.enchantments.entitydamage.BonusDamage;
+import me.wertik.enchants.enchantments.entitydamage.PumpkinReplace;
 import me.wertik.enchants.enchantments.entitydamage.ThorStrike;
 import me.wertik.enchants.handlers.BookManager;
 import me.wertik.enchants.handlers.DataHandler;
@@ -21,7 +22,7 @@ public class Main extends JavaPlugin {
     private Utils utils;
     private EnchantManager enchantManager;
     private DataHandler dataHandler;
-    public String pluginPrefix = "";
+    private String pluginPrefix = "";
     private BookManager bookManager;
 
     public static Main getInstance() {
@@ -88,6 +89,7 @@ public class Main extends JavaPlugin {
         new Furnace().hook();
         new ThorStrike().hook();
         new BonusDamage().hook();
+        new PumpkinReplace().hook();
 
         info("§aEnchantments loaded");
 

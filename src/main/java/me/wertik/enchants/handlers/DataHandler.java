@@ -43,6 +43,7 @@ public class DataHandler {
             enchantsYaml = YamlConfiguration.loadConfiguration(enchantsFile);
 
         // Section fillout
+        // Todo rewrite
 
         for (Enchantment enchant : enchantManager.getEnchantments()) {
 
@@ -55,6 +56,9 @@ public class DataHandler {
 
             if (!section.contains("display-name"))
                 section.set("display-name", "&3" + enchant.name());
+
+            if (!section.contains("max-level"))
+                section.set("max-level", 1);
 
             if (!section.contains("lore-line"))
                 section.set("lore-line", "&6! &3" + enchant.name());
@@ -112,6 +116,10 @@ public class DataHandler {
 
     public String getDisplayName(String name) {
         return utils.format(enchantsYaml.getString(name + ".display-name"));
+    }
+
+    public int getMaxLevel(String name) {
+        return enchantsYaml.getInt(name + ".max-level");
     }
 
     public String getLoreLine(String name) {

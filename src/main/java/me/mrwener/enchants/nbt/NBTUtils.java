@@ -1,4 +1,4 @@
-package me.MrWener.Enchants.nbt;
+package me.mrwener.enchants.nbt;
 
 import com.sun.istack.internal.NotNull;
 
@@ -10,11 +10,12 @@ public class NBTUtils {
     /**
      * Replaces useless " on end/start.
      *
-     * @param string
-     * @return
+     * @param string String to parse.
+     * @return Outcome. :"P
      */
     public static String strip(@NotNull String string) {
-        StringBuffer buf = new StringBuffer(string);
+        StringBuffer buf;
+        buf = new StringBuffer(string);
         if (buf.charAt(0) == '"') buf.setCharAt(0, ' ');
         if (buf.charAt(string.length() - 1) == '"') buf.setCharAt(string.length() - 1, ' ');
         return buf.toString().trim();
@@ -24,13 +25,14 @@ public class NBTUtils {
      * Replaces useless " on end/start.
      * VarChar edition
      *
-     * @param stringArray
-     * @return
+     * @param stringArray to parse
+     * @return String Array parsed..
      */
     public static List<String> strip(@NotNull String... stringArray) {
         List<String> editedArray = new ArrayList<>();
         for (String string : stringArray) {
-            StringBuffer buf = new StringBuffer(string);
+            StringBuffer buf;
+            buf = new StringBuffer(string);
             if (buf.charAt(0) == '"') buf.setCharAt(0, ' ');
             if (buf.charAt(string.length() - 1) == '"') buf.setCharAt(string.length() - 1, ' ');
             editedArray.add(buf.toString().trim());

@@ -3,7 +3,6 @@ package me.wertik.enchants.commands;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.handlers.BookManager;
 import me.wertik.enchants.handlers.EnchantManager;
-import me.wertik.enchants.objects.Book;
 import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -41,6 +40,7 @@ public class Commands implements CommandExecutor {
      *
      * */
 
+    @Deprecated
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (sender instanceof Player) {
@@ -58,10 +58,10 @@ public class Commands implements CommandExecutor {
                     case "get":
 
                         // Argument lenght check..
-                        if (args.length < 2) {
+                        if (args.length < 3) {
                             p.sendMessage("§cNot enough arguments..");
                             return false;
-                        } else if (args.length > 2) {
+                        } else if (args.length > 3) {
                             p.sendMessage("§cThat's too much..");
                             return false;
                         }
@@ -72,8 +72,17 @@ public class Commands implements CommandExecutor {
                             return false;
                         }
 
+                        // Validate level
+                        int level;
+                        try {
+                            level = Integer.valueOf(args[2]);
+                        } catch (NumberFormatException e) {
+                            p.sendMessage("§cNot a valid number on the level argument though.");
+                            return false;
+                        }
+
                         // Success!
-                        p.getInventory().addItem(new Book(enchantManager.getEnchantByName(args[1])).get());
+                        p.getInventory().addItem(bookManager.createBook(enchantManager.getEnchantByName(args[1]), level));
                         p.sendMessage("§6Given!");
 
                         break;
@@ -94,10 +103,10 @@ public class Commands implements CommandExecutor {
                     case "add":
 
                         // Argument lenght check..
-                        if (args.length < 2) {
+                        if (args.length < 3) {
                             p.sendMessage("§cNot enough arguments..");
                             return false;
-                        } else if (args.length > 2) {
+                        } else if (args.length > 3) {
                             p.sendMessage("§cThat's too much.. stop it.");
                             return false;
                         }
@@ -122,8 +131,16 @@ public class Commands implements CommandExecutor {
                             return false;
                         }
 
+                        // Validate level
+                        int level;
+                        try {
+                            level = Integer.valueOf(args[2]);
+                        } catch (NumberFormatException e) {
+                            p.sendMessage("§cNot a valid number on the level argument though.");
+                            return false;
+                        }
                         // Success!
-                        p.getInventory().setItemInMainHand(enchantManager.enchantItem(p.getInventory().getItemInMainHand(), enchant));
+                        p.getInventory().setItemInMainHand(enchantManager.enchantItem(p.getInventory().getItemInMainHand(), enchant, level));
                         p.sendMessage("§6Item enchanted. Check out what it does!");
 
                         break;
@@ -156,7 +173,7 @@ public class Commands implements CommandExecutor {
                             }
 
                             p.sendMessage("§6Enchants on your item:");
-                            for (Enchantment enchant1 : enchantManager.getEnchantsOnItem(p.getInventory().getItemInMainHand())) {
+                            for (Enchantment enchant1 : enchantManager.getEnchantsOnItem(p.getInventory().getItemInMainHand()).keySet()) {
                                 p.sendMessage("§f" + enchant1.name());
                             }
                         } else {
@@ -187,17 +204,14 @@ public class Commands implements CommandExecutor {
                         }
 
                         // Remove
-                        //enchantManager.removeEnchant(p.getInventory().getItemInMainHand());
+                        enchantManager.removeEnchant(p.getInventory().getItemInMainHand(), enchantManager.getEnchantByName(args[1]));
                         p.sendMessage("§6Done. It's gone.");
 
                         break;
                     case "clear":
 
                         // Argument lenght check..
-                        if (args.length < 1) {
-                            p.sendMessage("§cNot enough arguments..");
-                            return false;
-                        } else if (args.length > 1) {
+                        if (args.length > 1) {
                             p.sendMessage("§cThat's too much.. stop it.");
                             return false;
                         }

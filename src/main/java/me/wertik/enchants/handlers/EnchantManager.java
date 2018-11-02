@@ -1,25 +1,26 @@
 package me.wertik.enchants.handlers;
 
 import com.sun.istack.internal.NotNull;
-import me.MrWener.Enchants.nbt.NBTEditor;
-import me.wertik.enchants.Main;
+import me.mrwener.enchants.nbt.NBTEditor;
+import me.mrwener.enchants.nbt.NBTUtils;
 import me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class EnchantManager {
 
-    private Main plugin;
     private List<Enchantment> enchantments;
 
     public EnchantManager() {
-        enchantments = new ArrayList<Enchantment>();
-        plugin = Main.getInstance();
+        enchantments = new ArrayList<>();
     }
 
     // Not sure how to make this easier, need the list of available enchants.
@@ -42,15 +43,6 @@ public class EnchantManager {
         return names;
     }
 
-    public Enchantment getEnchantByLoreLine(String line) {
-
-        for (Enchantment enchant : enchantments) {
-            if (enchant.line().equals(line))
-                return enchant;
-        }
-        return null;
-    }
-
     public Enchantment getEnchantByName(String name) {
         for (Enchantment enchant : enchantments) {
             if (enchant.name().equals(name))
@@ -65,14 +57,24 @@ public class EnchantManager {
      * NBT data info:
      *
      * key: "enchants"
-     * value: "[enchant1, enchant2]"
+     * value: ""[enchant1, enchant2]""
+     *
+     * enchant1.level = x
+     * enchant2.level = y
+     *
+     * key: "levels"
+     * value: ""[x, y]""
      *
      * */
 
-    public List<Enchantment> getEnchantsOnItem(ItemStack item) {
-        List<Enchantment> enchants = new ArrayList<>();
+    public HashMap<Enchantment, Integer> getEnchantsOnItem(ItemStack item) {
+        HashMap<Enchantment, Integer> enchants = new HashMap<>();
 
-        String NBTData = NBTEditor.getNBT(item, "enchants");
+        // Enchant names
+
+        List<Enchantment> enchantsList = new ArrayList<>();
+
+        String NBTData = NBTUtils.strip(NBTEditor.getNBT(item, "enchants"));
 
         NBTData = NBTData.replace("[", "");
 
@@ -80,38 +82,85 @@ public class EnchantManager {
 
         String[] NBTDataList = NBTData.split(",");
 
-        List<String> enchantNames = new ArrayList<>(Arrays.asList(NBTDataList));
+        List<String> enchantNamesList = new ArrayList<>(Arrays.asList(NBTDataList));
 
-        for (String enchantName : enchantNames) {
-            enchants.add(getEnchantByName(enchantName));
+        for (String enchantName : enchantNamesList) {
+            enchantsList.add(getEnchantByName(enchantName.trim()));
+        }
+
+        // Enchant levels
+
+        List<Integer> levelsList = new ArrayList<>();
+
+        NBTData = NBTUtils.strip(NBTEditor.getNBT(item, "levels"));
+
+        NBTData = NBTData.replace("[", "");
+
+        NBTData = NBTData.replace("]", "");
+
+        NBTDataList = NBTData.split(",");
+
+        List<String> levelStringList = new ArrayList<>(Arrays.asList(NBTDataList));
+
+        for (String levelString : levelStringList) {
+            levelsList.add(Integer.valueOf(levelString));
+        }
+
+        // Complete
+
+        for (int i = 0; i < enchantsList.size(); i++) {
+            enchants.put(enchantsList.get(0), levelsList.get(0));
         }
 
         return enchants;
     }
 
-    public List<String> getEnchantsOnItemInString(ItemStack item) {
+    private List<String> getEnchantsOnItemInString(ItemStack item) {
 
-        String dataNBT = NBTEditor.getNBT(item, "enchants");
+        List<String> enchants = new ArrayList<>();
 
-        dataNBT = dataNBT.replace("[", "");
+        for (Enchantment enchant : getEnchantsOnItem(item).keySet()) {
+            enchants.add(enchant.name());
+        }
 
-        dataNBT = dataNBT.replace("]", "");
-
-        String[] NBTDataList = dataNBT.split(",");
-
-        List<String> enchantNames = new ArrayList<>(Arrays.asList(NBTDataList));
-
-        return enchantNames;
-
+        return enchants;
     }
 
     // Remove enchant
 
     public ItemStack removeEnchant(ItemStack item, Enchantment enchant) {
+
+        // NBT
+
+        List<Enchantment> enchants = new ArrayList<>(getEnchantsOnItem(item).keySet());
+
+        List<Integer> levels = new ArrayList<>(getEnchantsOnItem(item).values());
+
+        for (int i = 0; i < enchants.size(); i++) {
+            Enchantment enchant1 = enchants.get(i);
+
+            if (enchant.equals(enchant1)) {
+                enchants.remove(enchant1);
+                levels.remove(i);
+            }
+        }
+
+        item = NBTEditor.writeNBT(item, "enchants", enchants.toString());
+
+        item = NBTEditor.writeNBT(item, "levels", levels.toString());
+
+        // Lore
+
         ItemMeta itemMeta = item.getItemMeta();
+
         List<String> lore = itemMeta.getLore();
 
-        lore.remove(0);
+        for (String line : lore) {
+            if (line.equals(enchant.line())) {
+                lore.remove(line);
+                break;
+            }
+        }
 
         itemMeta.setLore(lore);
 
@@ -120,17 +169,30 @@ public class EnchantManager {
         return item;
     }
 
-    // Rewrite for NBT, just a tryout
-
     public ItemStack clearEnchants(ItemStack item) {
-        //return removeEnchant(item);
-        return null;
+
+        List<Enchantment> enchants = new ArrayList<>(getEnchantsOnItem(item).keySet());
+
+        ItemMeta itemMeta = item.getItemMeta();
+
+        List<String> lore = itemMeta.getLore();
+
+        for (Enchantment enchant : enchants) {
+            lore.remove(enchant.line());
+        }
+
+        itemMeta.setLore(lore);
+
+        item.setItemMeta(itemMeta);
+
+        item = NBTEditor.removeNBT(item, "key");
+
+        return NBTEditor.removeNBT(item, "enchants");
     }
 
     // Is item enchanted?
 
     public boolean isEnchanted(ItemStack item) {
-
         if (item.getType().equals(Material.AIR) || !item.hasItemMeta())
             return false;
         if (!item.getItemMeta().hasLore())
@@ -138,9 +200,16 @@ public class EnchantManager {
         return NBTEditor.hasNBT(item);
     }
 
-    // Is it enchantable?
+    /**
+     * Checks if {@link @item} is enchantable with {@link @enchant}
+     *
+     * @param enchant Enchant to check for.
+     * @param item    Item to check on.
+     * @return True if enchantable.
+     */
 
     public boolean isEnchantable(Enchantment enchant, ItemStack item) {
+        Bukkit.broadcastMessage(enchant.enchantableItemTypes().toString());
         return enchant.enchantableItemTypes().contains(item.getType().toString());
     }
 
@@ -153,7 +222,7 @@ public class EnchantManager {
      */
 
     // Todo: config option: apply lore?
-    public ItemStack enchantItem(@NotNull ItemStack item, @NotNull Enchantment enchant) {
+    public ItemStack enchantItem(@NotNull ItemStack item, @NotNull Enchantment enchant, int level) {
 
         if (!isEnchanted(item)) {
 
@@ -161,13 +230,15 @@ public class EnchantManager {
 
             item = NBTEditor.writeNBT(item, "enchants", enchant.name());
 
+            item = NBTEditor.writeNBT(item, "levels", String.valueOf(level));
+
             // Add lore
 
             ItemMeta itemMeta = item.getItemMeta();
 
             List<String> newLore = new ArrayList<>();
 
-            newLore.add(enchant.line());
+            newLore.add(enchant.line() + " " + Utils.RomanNumerals(level));
 
             if (itemMeta.hasLore()) {
                 List<String> lore = itemMeta.getLore();
@@ -186,6 +257,12 @@ public class EnchantManager {
             enchantsToApply.add(enchant.name());
 
             item = NBTEditor.writeNBT(item, "enchants", enchantsToApply.toString());
+
+            List<Integer> levelsToApply = new ArrayList<>(getEnchantsOnItem(item).values());
+
+            levelsToApply.add(level);
+
+            item = NBTEditor.writeNBT(item, "levels", levelsToApply.toString());
 
             // Add lore
 

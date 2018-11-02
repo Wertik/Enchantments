@@ -13,11 +13,11 @@ public class ConfigLoader {
     private FileConfiguration config;
     private Main plugin;
 
-    public ConfigLoader() {
+    ConfigLoader() {
         plugin = Main.getInstance();
     }
 
-    public void loadYamls() {
+    void loadYamls() {
 
         // CF
         File configFile = new File(plugin.getDataFolder() + "/config.yml");
@@ -33,11 +33,11 @@ public class ConfigLoader {
         // Language.yml (mby Messages)
     }
 
-    public String getStringFromConfig(String path) {
+    private String getStringFromConfig(String path) {
         return config.getString(path);
     }
 
-    public List<String> getStringListFromConfig(String path) {
+    private List<String> getStringListFromConfig(String path) {
         return config.getStringList(path);
     }
 
@@ -71,7 +71,7 @@ public class ConfigLoader {
 
     private List<String> parseList(List<String> list, Enchantment enchant) {
 
-        List<String> outList = new ArrayList<String>();
+        List<String> outList = new ArrayList<>();
 
         for (String line : list) {
             if (line.contains("%enchant_description%")) {
@@ -89,7 +89,7 @@ public class ConfigLoader {
     }
 
     private List<String> formatList(List<String> list) {
-        List<String> outList = new ArrayList<String>();
+        List<String> outList = new ArrayList<>();
 
         for (String line : list) {
             outList.add(format(line));

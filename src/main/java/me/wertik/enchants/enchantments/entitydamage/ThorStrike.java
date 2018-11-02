@@ -1,45 +1,26 @@
 package me.wertik.enchants.enchantments.entitydamage;
 
-import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.entity.Damageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ThorStrike extends Enchantment {
-
-    private Main plugin;
-
-    public ThorStrike() {
-        plugin = Main.getInstance();
-    }
 
     public String name() {
         return "thorstrike";
     }
 
-    public void onDamage(EntityDamageByEntityEvent e) {
+    @Override
+    public void onDamage(EntityDamageByEntityEvent e, int level) {
 
-        if (e.getDamager() instanceof Player) {
+        Damageable damageable = (Damageable) e.getEntity();
 
-            Entity entity = e.getEntity();
-            Damageable damageable = (Damageable) entity;
-            Player player = (Player) e.getDamager();
-
-            player.getWorld().strikeLightningEffect(entity.getLocation());
-            damageable.damage(10);
-        }
+        e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
+        damageable.damage(10);
     }
 
     @Override
-    public void onInteract(PlayerInteractEvent e) {
-
-    }
-
-    public void onBlockBreak(BlockBreakEvent e) {
-        e.getPlayer().sendMessage("Sword is not good for breaking blocks..");
+    public void onBlockBreak(BlockBreakEvent e, int level) {
     }
 }

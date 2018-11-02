@@ -1,4 +1,4 @@
-package me.MrWener.Enchants.nbt;
+package me.mrwener.enchants.nbt;
 
 import com.sun.istack.internal.NotNull;
 import net.minecraft.server.v1_12_R1.NBTBase;
@@ -69,7 +69,7 @@ public class NBTEditor {
      * @throws NullPointerException when did found anything in NBTCompound of item.
      */
 
-    public static String getNBT(@NotNull ItemStack item, @NotNull String key) throws NullPointerException {
+    public static String getNBT(@NotNull ItemStack item, @NotNull String key) {
         // Copy of ItemStack(Bukkit)
         net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbtTagCompound = minecraftItemStack.hasTag() ? minecraftItemStack.getTag() : new NBTTagCompound();
@@ -97,7 +97,7 @@ public class NBTEditor {
      * @return NBTBase child that you choose.
      * @throws NullPointerException when did found anything in NBTCompound of item
      */
-    public static <T extends NBTBase> T getNBT(@NotNull ItemStack item, @NotNull String key, Class<T> clazz) throws NullPointerException {
+    public static <T extends NBTBase> T getNBT(@NotNull ItemStack item, @NotNull String key, Class<T> clazz) {
         // Copy of ItemStack(Bukkit)
         net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbtTagCompound = minecraftItemStack.hasTag() ? minecraftItemStack.getTag() : new NBTTagCompound();
@@ -137,9 +137,15 @@ public class NBTEditor {
      */
 
     public static boolean hasNBT(@NotNull ItemStack item) {
+        net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
+        return minecraftItemStack.hasTag();
+    }
 
+    public static boolean hasNBTTag(@NotNull ItemStack item, String tag) {
         net.minecraft.server.v1_12_R1.ItemStack minecraftItemStack = CraftItemStack.asNMSCopy(item);
 
-        return minecraftItemStack.hasTag();
+        NBTTagCompound nbtTagCompound = minecraftItemStack.hasTag() ? minecraftItemStack.getTag() : new NBTTagCompound();
+
+        return nbtTagCompound.hasKey(tag);
     }
 }

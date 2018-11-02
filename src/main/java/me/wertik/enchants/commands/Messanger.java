@@ -10,25 +10,25 @@ public class Messanger {
     private Main plugin;
     private EnchantManager enchantManager;
 
-    public Messanger() {
+    Messanger() {
         plugin = Main.getInstance();
         enchantManager = plugin.getEnchantManager();
     }
 
-    public void helpEnchants(Player p) {
+    void helpEnchants(Player p) {
         p.sendMessage("§dThis should be the help page for enchant management.");
         p.sendMessage("§7                   --------------------           ");
-        p.sendMessage("§6/enchants add <name> §7== §6add enchantment to your hand\n" +
+        p.sendMessage("§6/enchants add <name> <enchant_level> §7== §6add enchantment to your hand\n" +
                 "§6/enchants list <hand/all> §7== §6list all enchants or just those on your hand\n" +
                 "§6/enchants remove <name> §7== §6remove enchantment from your hand\n" +
                 "§6/enchants clear §7== §6clear all enchantments from you hand");
         p.sendMessage("§7                   --------------------           ");
     }
 
-    public void helpBook(Player p) {
+    void helpBook(Player p) {
         p.sendMessage("§dThis should be the help page for enchanted books.");
         p.sendMessage("§7                   --------------------           ");
-        p.sendMessage("§6/ebook get <enchant_name> §7== §6get enchanted book by a name");
+        p.sendMessage("§6/ebook get <enchant_name> <enchant_level> §7== §6get enchanted book by a name");
         p.sendMessage("§7                   --------------------           ");
     }
 

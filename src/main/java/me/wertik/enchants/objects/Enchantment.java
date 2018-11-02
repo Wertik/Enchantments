@@ -5,7 +5,6 @@ import me.wertik.enchants.handlers.DataHandler;
 import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
@@ -47,13 +46,15 @@ public abstract class Enchantment {
         return dataHandler.getDescription(name());
     }
 
-    public abstract void onBlockBreak(BlockBreakEvent e);
+    public abstract void onBlockBreak(BlockBreakEvent e, int level);
 
-    public abstract void onDamage(EntityDamageByEntityEvent e);
-
-    public abstract void onInteract(PlayerInteractEvent e);
+    public abstract void onDamage(EntityDamageByEntityEvent e, int level);
 
     public void hook() {
         enchantManager.hookEnchant(this);
+    }
+
+    public int maxLevel() {
+        return dataHandler.getMaxLevel(name());
     }
 }

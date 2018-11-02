@@ -1,11 +1,19 @@
 package me.wertik.enchants.handlers;
 
+import me.mrwener.enchants.nbt.NBTEditor;
+import me.mrwener.enchants.nbt.NBTUtils;
 import me.wertik.enchants.ConfigLoader;
 import me.wertik.enchants.Main;
-import me.wertik.enchants.objects.Book;
 import me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookManager {
 
@@ -13,11 +21,13 @@ public class BookManager {
     private ConfigLoader configLoader;
     private EnchantManager enchantManager;
     private String belChar;
+    private Utils utils;
 
     public BookManager() {
         plugin = Main.getInstance();
         configLoader = plugin.getConfigLoader();
         enchantManager = plugin.getEnchantManager();
+        utils = plugin.getUtils();
         belChar = ChatColor.translateAlternateColorCodes('&', "&b&e&l&c&a&r");
     }
 
@@ -32,32 +42,84 @@ public class BookManager {
      *
      * destroy == 100 - success rate
      *
-     *
+     * NBT data:
+     * "book", "enchant_name"
+     * "success_rate", int
+     * "destroy_rate", int
      *
      * */
 
-    public Book getBook(ItemStack item) {
-        // TO-DO
-        return null;
+    public ItemStack createBook(Enchantment enchant, int level) {
+
+        // ItemStack
+
+        ItemStack book = new ItemStack(Material.ENCHANTED_BOOK, 1);
+
+        double success = Math.random() * 100;
+
+        ItemMeta itemMeta = book.getItemMeta();
+
+        List<String> lore = replaceRates(configLoader.getFinalStringList("Book.lore", enchant), success);
+        String name = configLoader.getFinalString("Book.name", enchant);
+
+        itemMeta.setDisplayName(belChar + name);
+        itemMeta.setLore(lore);
+
+        book.setItemMeta(itemMeta);
+
+        // NBT
+
+        book = NBTEditor.writeNBT(book, "book", enchant.name());
+
+        book = NBTEditor.writeNBT(book, "success_rate", String.valueOf(success));
+
+        book = NBTEditor.writeNBT(book, "destroy_rate", String.valueOf(100 - success));
+
+        book = NBTEditor.writeNBT(book, "level", String.valueOf(level));
+
+        return book;
+    }
+
+    private List<String> replaceRates(List<String> list, double success) {
+
+        List<String> newList = new ArrayList<>();
+
+        for (String line : list) {
+            if (line.contains("%success_rate%"))
+                line = line.replace("%success_rate%", utils.formatDouble(success));
+            if (line.contains("%destroy_rate%"))
+                line = line.replace("%destroy_rate%", utils.formatDouble(100 - success));
+            newList.add(line);
+        }
+
+        return newList;
+    }
+
+    public boolean isSuccessful(double success) {
+
+        double run = Math.random() * 100;
+
+        return run < success;
     }
 
     public boolean isBook(ItemStack item) {
-        if (item.hasItemMeta())
-            return item.getItemMeta().getDisplayName().contains(belChar);
-
-        return false;
+        return NBTEditor.hasNBTTag(item, "book");
     }
 
     public Enchantment getEnchantFromBook(ItemStack item) {
 
-        for (Enchantment enchant : enchantManager.getEnchantments()) {
-            Book book = new Book(enchant);
+        String enchantName = NBTEditor.getNBT(item, "book");
 
-            if (book.get().isSimilar(item)) {
-                return enchant;
-            }
-        }
+        Bukkit.broadcastMessage(NBTUtils.strip(enchantName));
 
-        return null;
+        return enchantManager.getEnchantByName(NBTUtils.strip(enchantName));
+    }
+
+    public int getLevelFromBook(ItemStack item) {
+        String levelString = NBTUtils.strip(NBTEditor.getNBT(item, "level"));
+
+        Bukkit.broadcastMessage(levelString);
+
+        return Integer.valueOf(levelString);
     }
 }

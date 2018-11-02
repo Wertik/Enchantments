@@ -1,5 +1,7 @@
 package me.wertik.enchants.listeners;
 
+import me.mrwener.enchants.nbt.NBTEditor;
+import me.mrwener.enchants.nbt.NBTUtils;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.handlers.BookManager;
 import me.wertik.enchants.handlers.EnchantManager;
@@ -23,6 +25,7 @@ public class Inventory implements Listener {
     }
 
     @EventHandler
+    @Deprecated
     public void onClick(InventoryClickEvent e) {
 
         if (e.getClickedInventory() == null)
@@ -36,14 +39,23 @@ public class Inventory implements Listener {
 
                 if (bookManager.isBook(e.getCursor())) {
 
-                    Enchantment enchant = bookManager.getEnchantFromBook(e.getCursor());
+                    ItemStack book = e.getCursor();
+                    Enchantment enchant = bookManager.getEnchantFromBook(book);
+                    int level = bookManager.getLevelFromBook(book);
 
-                    if (enchantManager.isEnchantable(enchant, item) && !enchantManager.isEnchanted(item)) {
+                    if (enchantManager.isEnchantable(enchant, item)) {
 
-                        e.getWhoClicked().sendMessage("§3Enchanting..");
-                        enchantManager.enchantItem(item, enchant);
-                        e.setCursor(null);
-                        e.setCancelled(true);
+                        if (bookManager.isSuccessful(Double.valueOf(NBTUtils.strip(NBTEditor.getNBT(book, "success_rate")).trim()))) {
+
+                            e.getWhoClicked().sendMessage("§3Enchanting..");
+                            e.getClickedInventory().setItem(e.getSlot(), enchantManager.enchantItem(item, enchant, level));
+                            e.setCursor(null);
+                            e.setCancelled(true);
+                        } else {
+                            e.setCursor(null);
+                            e.setCancelled(true);
+                            e.getWhoClicked().sendMessage("§3You failed..");
+                        }
                     }
                 }
             }

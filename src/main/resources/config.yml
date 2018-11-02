@@ -1,5 +1,7 @@
 Book:
-  name: '[E] %enchant_display_name%'
+  name: '&6[&3E&6] %enchant_display_name%&r &6[&3E&6]'
   lore:
+  - '%enchant_description%'
   - ''
-  - ''
+  - '&7Success: &2%success_rate%&7%'
+  - '&7Destroy: &4%destroy_rate%&7%'
