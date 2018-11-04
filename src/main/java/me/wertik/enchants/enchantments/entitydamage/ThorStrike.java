@@ -17,10 +17,20 @@ public class ThorStrike extends Enchantment {
         Damageable damageable = (Damageable) e.getEntity();
 
         e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
-        damageable.damage(10);
+        damageable.damage(((Damageable) e.getEntity()).getHealth() * 0.15);
+    }
+
+    @Override
+    public boolean usesEntityDamage() {
+        return true;
     }
 
     @Override
     public void onBlockBreak(BlockBreakEvent e, int level) {
+    }
+
+    @Override
+    public boolean usesBlockBreak() {
+        return false;
     }
 }

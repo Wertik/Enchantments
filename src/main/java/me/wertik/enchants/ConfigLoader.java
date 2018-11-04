@@ -1,10 +1,13 @@
 package me.wertik.enchants;
 
 import me.wertik.enchants.objects.Enchantment;
+import me.wertik.enchants.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +15,14 @@ public class ConfigLoader {
 
     private FileConfiguration config;
     private Main plugin;
+    private YamlConfiguration languageYaml;
+    private File languageFile;
 
     ConfigLoader() {
         plugin = Main.getInstance();
     }
 
-    void loadYamls() {
+    public void loadYamls() {
 
         // CF
         File configFile = new File(plugin.getDataFolder() + "/config.yml");
@@ -30,7 +35,26 @@ public class ConfigLoader {
 
         config = plugin.getConfig();
 
-        // Language.yml (mby Messages)
+        // Language.yml
+
+        languageFile = new File(plugin.getDataFolder() + "/language.yml");
+
+        if (!languageFile.exists()) {
+            plugin.saveResource("language.yml", false);
+            languageYaml = YamlConfiguration.loadConfiguration(languageFile);
+            languageYaml.options().copyDefaults(true);
+            try {
+                languageYaml.save(languageFile);
+            } catch (IOException e) {
+                plugin.getServer().getConsoleSender().sendMessage(plugin.getPluginPrefix() + "§cCould not save the file §f" + languageFile.getName() + "§c, that's bad tho.");
+            }
+            plugin.getServer().getConsoleSender().sendMessage(plugin.getPluginPrefix() + "§aGenerated default §f" + languageFile.getName());
+        } else
+            languageYaml = YamlConfiguration.loadConfiguration(languageFile);
+    }
+
+    public String getMessage(String name) {
+        return format(languageYaml.getString(name));
     }
 
     private String getStringFromConfig(String path) {
@@ -45,8 +69,16 @@ public class ConfigLoader {
         return formatList(parseList(getStringListFromConfig(path), enchant));
     }
 
+    public List<String> getFinalStringList(String path, Enchantment enchant, int level) {
+        return formatList(parseList(getStringListFromConfig(path), enchant, level));
+    }
+
     public String getFinalString(String path, Enchantment enchant) {
         return format(parse(getStringFromConfig(path), enchant));
+    }
+
+    public String getFinalString(String path, Enchantment enchant, int level) {
+        return format(parse(getStringFromConfig(path), enchant, level));
     }
 
     /*
@@ -69,6 +101,13 @@ public class ConfigLoader {
         return msg;
     }
 
+    public String parse(String msg, Enchantment enchant, int level) {
+        msg = parse(msg, enchant);
+        if (msg.contains("%enchant_level%"))
+            msg = msg.replace("%enchant_level%", Utils.RomanNumerals(level));
+        return msg;
+    }
+
     private List<String> parseList(List<String> list, Enchantment enchant) {
 
         List<String> outList = new ArrayList<>();
@@ -79,6 +118,18 @@ public class ConfigLoader {
                 continue;
             }
             outList.add(format(parse(line, enchant)));
+        }
+
+        return outList;
+    }
+
+    private List<String> parseList(List<String> list, Enchantment enchant, int level) {
+        List<String> outList = new ArrayList<>();
+
+        list = parseList(list, enchant);
+
+        for (String line : list) {
+            outList.add(parse(line, enchant, level));
         }
 
         return outList;

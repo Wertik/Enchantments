@@ -25,7 +25,6 @@ public class Inventory implements Listener {
     }
 
     @EventHandler
-    @Deprecated
     public void onClick(InventoryClickEvent e) {
 
         if (e.getClickedInventory() == null)
@@ -47,14 +46,14 @@ public class Inventory implements Listener {
 
                         if (bookManager.isSuccessful(Double.valueOf(NBTUtils.strip(NBTEditor.getNBT(book, "success_rate")).trim()))) {
 
-                            e.getWhoClicked().sendMessage("§3Enchanting..");
+                            e.getWhoClicked().sendMessage("§6Enchanting..");
                             e.getClickedInventory().setItem(e.getSlot(), enchantManager.enchantItem(item, enchant, level));
                             e.setCursor(null);
                             e.setCancelled(true);
                         } else {
                             e.setCursor(null);
                             e.setCancelled(true);
-                            e.getWhoClicked().sendMessage("§3You failed..");
+                            e.getWhoClicked().sendMessage("§6You failed..");
                         }
                     }
                 }

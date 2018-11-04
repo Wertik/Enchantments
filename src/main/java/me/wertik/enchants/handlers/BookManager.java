@@ -59,8 +59,8 @@ public class BookManager {
 
         ItemMeta itemMeta = book.getItemMeta();
 
-        List<String> lore = replaceRates(configLoader.getFinalStringList("Book.lore", enchant), success);
-        String name = configLoader.getFinalString("Book.name", enchant);
+        List<String> lore = replaceRates(configLoader.getFinalStringList("Book.lore", enchant, level), success);
+        String name = configLoader.getFinalString("Book.name", enchant, level);
 
         itemMeta.setDisplayName(belChar + name);
         itemMeta.setLore(lore);

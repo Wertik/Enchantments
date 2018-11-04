@@ -43,44 +43,22 @@ public class DataHandler {
             enchantsYaml = YamlConfiguration.loadConfiguration(enchantsFile);
 
         // Section fillout
-        // Todo rewrite
 
         for (Enchantment enchant : enchantManager.getEnchantments()) {
 
-            ConfigurationSection section;
+            ConfigurationSection section = checkSection(enchantsYaml, enchant.name());
 
-            if (!enchantsYaml.contains(enchant.name()))
-                section = enchantsYaml.createSection(enchant.name());
-            else
-                section = enchantsYaml.getConfigurationSection(enchant.name());
+            checkOption(section, "display-name", "&3" + enchant.name());
+            checkOption(section, "max-level", 1);
+            checkOption(section, "chance", 0.5);
+            checkOption(section, "lore-line", "&3" + enchant.name() + " %enchant_level%");
+            checkOption(section, "enchantable-item-types", new ArrayList<>());
+            checkOption(section, "description", new ArrayList<>());
 
-            if (!section.contains("display-name"))
-                section.set("display-name", "&3" + enchant.name());
+            section = checkSection(enchantsYaml, enchant.name() + ".conditions");
 
-            if (!section.contains("max-level"))
-                section.set("max-level", 1);
-
-            if (!section.contains("lore-line"))
-                section.set("lore-line", "&6! &3" + enchant.name());
-
-            if (!section.contains("enchantable-item-types"))
-                section.set("enchantable-item-types", new ArrayList<String>());
-
-            if (!section.contains("description"))
-                section.set("description", new ArrayList<String>());
-
-            ConfigurationSection conditions;
-
-            if (!enchantsYaml.contains("conditions"))
-                conditions = section.createSection("conditions");
-            else
-                conditions = section.getConfigurationSection("conditions");
-
-            if (!section.contains("regions"))
-                conditions.set("regions", new ArrayList<String>());
-
-            if (!section.contains("biome-types"))
-                conditions.set("biome-types", new ArrayList<String>());
+            checkOption(section, "regions", new ArrayList<>());
+            checkOption(section, "biome-types", new ArrayList<>());
         }
 
         try {
@@ -88,6 +66,35 @@ public class DataHandler {
         } catch (IOException e) {
             plugin.getServer().getConsoleSender().sendMessage(plugin.getPluginPrefix() + "§cCould not save the file §f" + enchantsFile.getName() + "§c, that's bad tho.");
         }
+    }
+
+    private void checkOption(ConfigurationSection section, String name, String defaultValue) {
+        if (!section.contains(name))
+            section.set(name, defaultValue);
+    }
+
+    private void checkOption(ConfigurationSection section, String name, int defaultValue) {
+        if (!section.contains(name))
+            section.set(name, defaultValue);
+    }
+
+    private void checkOption(ConfigurationSection section, String name, double defaultValue) {
+        if (!section.contains(name))
+            section.set(name, defaultValue);
+    }
+
+    private void checkOption(ConfigurationSection section, String name, List<String> defaultValue) {
+        if (!section.contains(name))
+            section.set(name, defaultValue);
+    }
+
+    private ConfigurationSection checkSection(YamlConfiguration yaml, String path) {
+        ConfigurationSection section;
+        if (!yaml.contains(path))
+            section = yaml.createSection(path);
+        else
+            section = yaml.getConfigurationSection(path);
+        return section;
     }
 
     /*
@@ -100,6 +107,7 @@ public class DataHandler {
      *
      * <name>:
      *   display-name: ""
+     *   chance: double
      *   lore-line: "§cFurnace enchantment"
      *   description:
      *   - ''
@@ -120,6 +128,10 @@ public class DataHandler {
 
     public int getMaxLevel(String name) {
         return enchantsYaml.getInt(name + ".max-level");
+    }
+
+    public double getChance(String name) {
+        return enchantsYaml.getDouble(name + ".chance");
     }
 
     public String getLoreLine(String name) {

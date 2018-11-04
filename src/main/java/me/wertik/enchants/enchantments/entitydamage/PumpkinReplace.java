@@ -30,7 +30,11 @@ public class PumpkinReplace extends Enchantment {
     }
 
     @Override
-    @Deprecated
+    public boolean usesBlockBreak() {
+        return false;
+    }
+
+    @Override
     public void onDamage(EntityDamageByEntityEvent e, int level) {
 
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
@@ -59,6 +63,11 @@ public class PumpkinReplace extends Enchantment {
                 ((Player) e.getDamager()).playEffect(loc, Effect.SMOKE, 0);
             }
         }
+    }
+
+    @Override
+    public boolean usesEntityDamage() {
+        return true;
     }
 
     private void replaceHelmet(ItemStack helmet, Player player) {

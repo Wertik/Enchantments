@@ -1,7 +1,8 @@
 package me.wertik.enchants.utils;
 
-import me.wertik.enchants.objects.Enchantment;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
@@ -57,9 +58,25 @@ public class Utils {
         return df2.format(val).trim();
     }
 
-    public boolean decide(Enchantment enchant, int level) {
-        double random = Math.random() * (enchant.maxLevel() + 1);
+    /*
+     * chance ==
+     * level ==
+     *
+     * eq.: random * ()
+     *
+     * */
 
-        return random < level;
+    public boolean decide(double chance, int level) {
+        double random = Math.random() * level;
+        Bukkit.broadcastMessage("Random: " + random + " Chance: " + level * chance);
+        return random < level * chance;
+    }
+
+    public Material getSmelt(Material block) {
+        for (MeltMaterials meltMaterials : MeltMaterials.getMeltMaterials()) {
+            if (meltMaterials.getBlock().equals(block))
+                return meltMaterials.getMelted();
+        }
+        return null;
     }
 }

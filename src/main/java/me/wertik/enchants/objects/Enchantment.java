@@ -46,9 +46,17 @@ public abstract class Enchantment {
         return dataHandler.getDescription(name());
     }
 
+    // Event usage
+
     public abstract void onBlockBreak(BlockBreakEvent e, int level);
 
+    public abstract boolean usesBlockBreak();
+
     public abstract void onDamage(EntityDamageByEntityEvent e, int level);
+
+    public abstract boolean usesEntityDamage();
+
+    //
 
     public void hook() {
         enchantManager.hookEnchant(this);
@@ -56,5 +64,9 @@ public abstract class Enchantment {
 
     public int maxLevel() {
         return dataHandler.getMaxLevel(name());
+    }
+
+    public double chance() {
+        return dataHandler.getChance(name());
     }
 }

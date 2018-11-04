@@ -1,9 +1,9 @@
 main: me.wertik.enchants.Main
 author: Wertik1206
-version: 1.0.2.5
+version: dev-1.0.2.6
 name: Enchants
 commands:
   enchants:
-    description: Hmm...
+    description: Main command to manipulate the plugin.
   ebook:
-    description: Hmm...
+    description: Book manager command.

@@ -1,5 +1,6 @@
 package me.wertik.enchants.commands;
 
+import me.wertik.enchants.ConfigLoader;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.handlers.BookManager;
 import me.wertik.enchants.handlers.EnchantManager;
@@ -16,12 +17,14 @@ public class Commands implements CommandExecutor {
     private EnchantManager enchantManager;
     private BookManager bookManager;
     private Messanger messanger;
+    private ConfigLoader configLoader;
 
     public Commands() {
         plugin = Main.getInstance();
         enchantManager = plugin.getEnchantManager();
         bookManager = plugin.getBookManager();
         messanger = new Messanger();
+        configLoader = plugin.getConfigLoader();
     }
 
     /*
@@ -59,16 +62,16 @@ public class Commands implements CommandExecutor {
 
                         // Argument lenght check..
                         if (args.length < 3) {
-                            p.sendMessage("§cNot enough arguments..");
+                            configLoader.getMessage("not-enough-args");
                             return false;
                         } else if (args.length > 3) {
-                            p.sendMessage("§cThat's too much..");
+                            configLoader.getMessage("too-many-args");
                             return false;
                         }
 
                         // Enchant existence check..
                         if (!enchantManager.getEnchantNames().contains(args[1])) {
-                            p.sendMessage("§cThat enchant does not exist.");
+                            configLoader.getMessage("does-not-exist");
                             return false;
                         }
 
@@ -77,17 +80,23 @@ public class Commands implements CommandExecutor {
                         try {
                             level = Integer.valueOf(args[2]);
                         } catch (NumberFormatException e) {
-                            p.sendMessage("§cNot a valid number on the level argument though.");
+                            configLoader.getMessage("not-a-number");
+                            return false;
+                        }
+
+                        // Max level check
+                        if (enchantManager.getEnchantByName(args[1]).maxLevel() < level) {
+                            configLoader.getMessage("over-max-level");
                             return false;
                         }
 
                         // Success!
                         p.getInventory().addItem(bookManager.createBook(enchantManager.getEnchantByName(args[1]), level));
-                        p.sendMessage("§6Given!");
+                        configLoader.getMessage("given");
 
                         break;
                     default:
-                        p.sendMessage("§cNot a command.. try the help page. It helps!");
+                        configLoader.getMessage("not-a-command");
                         return false;
                 }
 
@@ -107,7 +116,7 @@ public class Commands implements CommandExecutor {
                             p.sendMessage("§cNot enough arguments..");
                             return false;
                         } else if (args.length > 3) {
-                            p.sendMessage("§cThat's too much.. stop it.");
+                            p.sendMessage("§cThat's just too much.. stop it.");
                             return false;
                         }
 
@@ -139,10 +148,10 @@ public class Commands implements CommandExecutor {
                             p.sendMessage("§cNot a valid number on the level argument though.");
                             return false;
                         }
+
                         // Success!
                         p.getInventory().setItemInMainHand(enchantManager.enchantItem(p.getInventory().getItemInMainHand(), enchant, level));
                         p.sendMessage("§6Item enchanted. Check out what it does!");
-
                         break;
                     case "list":
 
@@ -232,11 +241,19 @@ public class Commands implements CommandExecutor {
                         p.sendMessage("§6Done. Everything is cleared..");
 
                         break;
+                    case "reload":
+                        configLoader.loadYamls();
+                        Main.getInstance().getDataHandler().loadYamls();
+                        plugin.reloadConfig();
+                        p.sendMessage("§6Reloaded boss!");
+                        break;
+                    case "info":
+                        messanger.info(p);
+                        break;
                     default:
                         p.sendMessage("§cNot a command.. try the help page. It helps!");
                         return false;
                 }
-
             }
 
         } else

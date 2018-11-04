@@ -1,5 +1,5 @@
 Book:
-  name: '&6[&3E&6] %enchant_display_name%&r &6[&3E&6]'
+  name: '&7Enchanted book: &3%enchant_display_name% %enchant_level%'
   lore:
   - '%enchant_description%'
   - ''

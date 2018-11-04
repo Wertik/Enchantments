@@ -3,8 +3,9 @@ package me.wertik.enchants.handlers;
 import com.sun.istack.internal.NotNull;
 import me.mrwener.enchants.nbt.NBTEditor;
 import me.mrwener.enchants.nbt.NBTUtils;
+import me.wertik.enchants.ConfigLoader;
+import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
-import me.wertik.enchants.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -18,9 +19,11 @@ import java.util.List;
 public class EnchantManager {
 
     private List<Enchantment> enchantments;
+    private ConfigLoader configLoader;
 
     public EnchantManager() {
         enchantments = new ArrayList<>();
+        configLoader = Main.getInstance().getConfigLoader();
     }
 
     // Not sure how to make this easier, need the list of available enchants.
@@ -103,7 +106,7 @@ public class EnchantManager {
         List<String> levelStringList = new ArrayList<>(Arrays.asList(NBTDataList));
 
         for (String levelString : levelStringList) {
-            levelsList.add(Integer.valueOf(levelString));
+            levelsList.add(Integer.valueOf(levelString.trim()));
         }
 
         // Complete
@@ -238,7 +241,7 @@ public class EnchantManager {
 
             List<String> newLore = new ArrayList<>();
 
-            newLore.add(enchant.line() + " " + Utils.RomanNumerals(level));
+            newLore.add(configLoader.parse(enchant.line(), enchant, level));
 
             if (itemMeta.hasLore()) {
                 List<String> lore = itemMeta.getLore();
@@ -270,7 +273,7 @@ public class EnchantManager {
 
             List<String> newLore = new ArrayList<>();
 
-            newLore.add(enchant.line());
+            newLore.add(configLoader.parse(enchant.line(), enchant, level));
 
             if (itemMeta.hasLore()) {
                 List<String> lore = itemMeta.getLore();
