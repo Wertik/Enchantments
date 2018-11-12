@@ -1,6 +1,5 @@
 package me.wertik.enchants.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -68,7 +67,7 @@ public class Utils {
 
     public boolean decide(double chance, int level) {
         double random = Math.random() * level;
-        Bukkit.broadcastMessage("Random: " + random + " Chance: " + level * chance);
+        //Bukkit.broadcastMessage("Random: " + random + " Chance: " + level * chance);
         return random < level * chance;
     }
 

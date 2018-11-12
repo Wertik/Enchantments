@@ -6,7 +6,6 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,17 +24,22 @@ public class PumpkinReplace extends Enchantment {
     }
 
     @Override
-    public void onBlockBreak(BlockBreakEvent e, int level) {
-
+    public boolean isToolEnchant() {
+        return true;
     }
 
     @Override
-    public boolean usesBlockBreak() {
+    public boolean isTokenEnchant() {
         return false;
     }
 
     @Override
-    public void onDamage(EntityDamageByEntityEvent e, int level) {
+    public boolean isArmorEnchant() {
+        return false;
+    }
+
+    @Override
+    public void onToolDamage(EntityDamageByEntityEvent e, int level) {
 
         if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 
@@ -63,11 +67,6 @@ public class PumpkinReplace extends Enchantment {
                 ((Player) e.getDamager()).playEffect(loc, Effect.SMOKE, 0);
             }
         }
-    }
-
-    @Override
-    public boolean usesEntityDamage() {
-        return true;
     }
 
     private void replaceHelmet(ItemStack helmet, Player player) {

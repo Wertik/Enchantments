@@ -6,8 +6,8 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class MoneyMaker extends Enchantment {
 
@@ -17,16 +17,22 @@ public class MoneyMaker extends Enchantment {
     }
 
     @Override
-    public void onBlockBreak(BlockBreakEvent e, int level) {
+    public boolean isToolEnchant() {
+        return true;
     }
 
     @Override
-    public boolean usesBlockBreak() {
+    public boolean isTokenEnchant() {
+        return true;
+    }
+
+    @Override
+    public boolean isArmorEnchant() {
         return false;
     }
 
     @Override
-    public void onDamage(EntityDamageByEntityEvent e, int level) {
+    public void onToolDamage(EntityDamageByEntityEvent e, int level) {
 
         Player p = (Player) e.getDamager();
 
@@ -52,7 +58,12 @@ public class MoneyMaker extends Enchantment {
     }
 
     @Override
-    public boolean usesEntityDamage() {
-        return true;
+    public void onTokenMove(PlayerMoveEvent e, int level) {
+
+        Player p = e.getPlayer();
+
+        Location location = p.getLocation();
+
+        location.getWorld().spigot().playEffect(location, Effect.CLOUD, 0, 0, 0, 0, 0, 0, 10, 20);
     }
 }

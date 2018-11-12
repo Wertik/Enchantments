@@ -2,7 +2,6 @@ package me.wertik.enchants.enchantments.entitydamage;
 
 import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.entity.Damageable;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class ThorStrike extends Enchantment {
@@ -12,7 +11,22 @@ public class ThorStrike extends Enchantment {
     }
 
     @Override
-    public void onDamage(EntityDamageByEntityEvent e, int level) {
+    public boolean isToolEnchant() {
+        return true;
+    }
+
+    @Override
+    public boolean isTokenEnchant() {
+        return false;
+    }
+
+    @Override
+    public boolean isArmorEnchant() {
+        return false;
+    }
+
+    @Override
+    public void onToolDamage(EntityDamageByEntityEvent e, int level) {
 
         Damageable damageable = (Damageable) e.getEntity();
 
@@ -20,17 +34,4 @@ public class ThorStrike extends Enchantment {
         damageable.damage(((Damageable) e.getEntity()).getHealth() * 0.15);
     }
 
-    @Override
-    public boolean usesEntityDamage() {
-        return true;
-    }
-
-    @Override
-    public void onBlockBreak(BlockBreakEvent e, int level) {
-    }
-
-    @Override
-    public boolean usesBlockBreak() {
-        return false;
-    }
 }

@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class EnchantEventListener implements Listener {
 
@@ -25,5 +27,15 @@ public class EnchantEventListener implements Listener {
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player)
             enchantEventHandler.processEvent(e, (Player) e.getDamager());
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent e) {
+        enchantEventHandler.processEvent(e, e.getPlayer());
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        enchantEventHandler.processEvent(e, e.getPlayer());
     }
 }

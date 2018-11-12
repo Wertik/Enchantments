@@ -196,11 +196,13 @@ public class EnchantManager {
     // Is item enchanted?
 
     public boolean isEnchanted(ItemStack item) {
+        if (item == null)
+            return false;
         if (item.getType().equals(Material.AIR) || !item.hasItemMeta())
             return false;
         if (!item.getItemMeta().hasLore())
             return false;
-        return NBTEditor.hasNBT(item);
+        return NBTEditor.hasNBTTag(item, "enchants");
     }
 
     /**
