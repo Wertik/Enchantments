@@ -11,6 +11,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
@@ -35,6 +37,25 @@ public class EnchantEventHandler {
         worldGuard = plugin.getWorldGuard();
     }
 
+    public void processEvent(PlayerDeathEvent e, Player p) {
+
+        // Tool
+        InternEnchant enchantTool = isGo(p.getItemInHand(), p);
+
+        if (enchantTool != null)
+            enchantTool.getEnchant().onToolDeath(e, enchantTool.getLevel());
+
+        // Token
+        for (InternEnchant enchantToken : isGoToken(p)) {
+            enchantToken.getEnchant().onTokenDeath(e, enchantToken.getLevel());
+        }
+
+        // Armor
+        for (InternEnchant enchantArmor : isGoArmor(p)) {
+            enchantArmor.getEnchant().onArmorDeath(e, enchantArmor.getLevel());
+        }
+    }
+
     public void processEvent(BlockBreakEvent e, Player p) {
 
         // Tool
@@ -45,7 +66,7 @@ public class EnchantEventHandler {
 
         // Token
         for (InternEnchant enchantToken : isGoToken(p)) {
-            enchantToken.getEnchant().onToolBlockBreak(e, enchantToken.getLevel());
+            enchantToken.getEnchant().onTokenBlockBreak(e, enchantToken.getLevel());
         }
 
         // Armor
@@ -70,6 +91,25 @@ public class EnchantEventHandler {
         // Armor
         for (InternEnchant enchantArmor : isGoArmor(p)) {
             enchantArmor.getEnchant().onArmorDamage(e, enchantArmor.getLevel());
+        }
+    }
+
+    public void processEventDI(EntityDamageEvent e, Player p) {
+
+        // Tool
+        InternEnchant enchantTool = isGo(p.getItemInHand(), p);
+
+        if (enchantTool != null)
+            enchantTool.getEnchant().onToolDamageIncome(e, enchantTool.getLevel());
+
+        // Token
+        for (InternEnchant enchantToken : isGoToken(p)) {
+            enchantToken.getEnchant().onTokenDamageIncome(e, enchantToken.getLevel());
+        }
+
+        // Armor
+        for (InternEnchant enchantArmor : isGoArmor(p)) {
+            enchantArmor.getEnchant().onArmorDamageIncome(e, enchantArmor.getLevel());
         }
     }
 
@@ -138,7 +178,7 @@ public class EnchantEventHandler {
             List<InternEnchant> internEnchants = new ArrayList<>();
 
             for (Enchantment enchant1 : enchants.keySet()) {
-                internEnchants.add(new InternEnchant(enchant1, enchants.get(enchant1)));
+                internEnchants.add(new InternEnchant(item, enchant1, enchants.get(enchant1)));
             }
 
             for (InternEnchant internEnchant : internEnchants) {
@@ -146,7 +186,6 @@ public class EnchantEventHandler {
                 Enchantment enchant = internEnchant.getEnchant();
 
                 // regionNames
-
                 if (enchant.workableRegionNames() != null)
                     if (!enchant.workableRegionNames().isEmpty())
                         if (worldGuard != null)
@@ -154,13 +193,21 @@ public class EnchantEventHandler {
                                 return null;
 
                 // Biome types
-
                 if (enchant.workableBiomeTypes() != null)
                     if (!enchant.workableBiomeTypes().isEmpty())
                         if (!enchant.workableBiomeTypes().contains(p.getLocation().getBlock().getBiome().name()))
                             return null;
 
+                // Worlds
+                if (enchant.workableWorldNames() != null)
+                    if (!enchant.workableWorldNames().isEmpty())
+                        if (!enchant.workableWorldNames().contains(p.getWorld().getName()))
+                            return null;
+
                 if (utils.decide(enchant.chance(), enchants.get(enchant))) {
+
+                    // It will be fired.
+
                     // Process equivalent event
                     return internEnchant;
                 }
@@ -189,9 +236,9 @@ public class EnchantEventHandler {
         for (ItemStack item : contents) {
             InternEnchant enchant = isGo(item, p);
 
-            if (enchant != null)
+            if (enchant != null) {
                 enchants.add(enchant);
-            else
+            } else
                 continue;
         }
 

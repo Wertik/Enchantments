@@ -59,6 +59,7 @@ public class DataHandler {
 
             checkOption(section, "regions", new ArrayList<>());
             checkOption(section, "biome-types", new ArrayList<>());
+            checkOption(section, "worlds", new ArrayList<>());
         }
 
         try {
@@ -148,6 +149,10 @@ public class DataHandler {
 
     public List<String> getWorkableBiomeTypes(String name) {
         return enchantsYaml.getStringList(name + ".conditions.biome-types");
+    }
+
+    public List<String> getWorkableWorldNames(String name) {
+        return enchantsYaml.getStringList(name + ".conditions.worlds");
     }
 
     public List<String> getDescription(String name) {

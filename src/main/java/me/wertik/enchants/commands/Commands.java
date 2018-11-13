@@ -62,16 +62,16 @@ public class Commands implements CommandExecutor {
 
                         // Argument lenght check..
                         if (args.length < 3) {
-                            configLoader.getMessage("not-enough-args");
+                            p.sendMessage(configLoader.getMessage("not-enough-args"));
                             return false;
                         } else if (args.length > 3) {
-                            configLoader.getMessage("too-many-args");
+                            p.sendMessage(configLoader.getMessage("too-many-args"));
                             return false;
                         }
 
                         // Enchant existence check..
                         if (!enchantManager.getEnchantNames().contains(args[1])) {
-                            configLoader.getMessage("does-not-exist");
+                            p.sendMessage(configLoader.getMessage("does-not-exist"));
                             return false;
                         }
 
@@ -80,23 +80,23 @@ public class Commands implements CommandExecutor {
                         try {
                             level = Integer.valueOf(args[2]);
                         } catch (NumberFormatException e) {
-                            configLoader.getMessage("not-a-number");
+                            p.sendMessage(configLoader.getMessage("not-a-number"));
                             return false;
                         }
 
                         // Max level check
                         if (enchantManager.getEnchantByName(args[1]).maxLevel() < level) {
-                            configLoader.getMessage("over-max-level");
+                            p.sendMessage(configLoader.getMessage("over-max-level"));
                             return false;
                         }
 
                         // Success!
                         p.getInventory().addItem(bookManager.createBook(enchantManager.getEnchantByName(args[1]), level));
-                        configLoader.getMessage("given");
+                        p.sendMessage(configLoader.getMessage("given"));
 
                         break;
                     default:
-                        configLoader.getMessage("not-a-command");
+                        p.sendMessage(configLoader.getMessage("not-a-command"));
                         return false;
                 }
 
@@ -113,16 +113,16 @@ public class Commands implements CommandExecutor {
 
                         // Argument lenght check..
                         if (args.length < 3) {
-                            p.sendMessage("§cNot enough arguments..");
+                            p.sendMessage(configLoader.getMessage("not-enough-args"));
                             return false;
                         } else if (args.length > 3) {
-                            p.sendMessage("§cThat's just too much.. stop it.");
+                            p.sendMessage(configLoader.getMessage("too-many-args"));
                             return false;
                         }
 
                         // Enchant existence check..
                         if (!enchantManager.getEnchantNames().contains(args[1])) {
-                            p.sendMessage("§cThat enchant does not exist, wtf.");
+                            p.sendMessage(configLoader.getMessage("does-not-exist"));
                             return false;
                         }
 
@@ -130,13 +130,13 @@ public class Commands implements CommandExecutor {
 
                         // Empty hand? q.q
                         if (p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-                            p.sendMessage("§cEmpty hand? Well, that's a problem..");
+                            p.sendMessage(configLoader.getMessage("empty-hand"));
                             return false;
                         }
 
                         // If hand is not empty and enchantable..
                         if (!enchantManager.isEnchantable(enchant, p.getInventory().getItemInMainHand())) {
-                            p.sendMessage("§cThat item is not enchantable.. what are you trying on me..");
+                            p.sendMessage(configLoader.getMessage("not-enchantable"));
                             return false;
                         }
 
@@ -145,22 +145,22 @@ public class Commands implements CommandExecutor {
                         try {
                             level = Integer.valueOf(args[2]);
                         } catch (NumberFormatException e) {
-                            p.sendMessage("§cNot a valid number on the level argument though.");
+                            p.sendMessage(configLoader.getMessage("not-a-number"));
                             return false;
                         }
 
                         // Success!
                         p.getInventory().setItemInMainHand(enchantManager.enchantItem(p.getInventory().getItemInMainHand(), enchant, level));
-                        p.sendMessage("§6Item enchanted. Check out what it does!");
+                        p.sendMessage(configLoader.getMessage("enchanted"));
                         break;
                     case "list":
 
                         // Argument lenght check..
                         if (args.length < 2) {
-                            p.sendMessage("§cNot enough arguments..");
+                            p.sendMessage(configLoader.getMessage("not-enough-args"));
                             return false;
                         } else if (args.length > 2) {
-                            p.sendMessage("§cThat's too much..");
+                            p.sendMessage(configLoader.getMessage("too-many-args"));
                             return false;
                         }
 
@@ -171,13 +171,13 @@ public class Commands implements CommandExecutor {
 
                             // Empty hand? q.q
                             if (p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-                                p.sendMessage("§cEmpty hand? Well, that's a problem..");
+                                p.sendMessage(configLoader.getMessage("empty-hand"));
                                 return false;
                             }
 
                             // Enchanted?
                             if (!enchantManager.isEnchanted(p.getInventory().getItemInMainHand())) {
-                                p.sendMessage("§cItem is not enchanted.. ");
+                                p.sendMessage(configLoader.getMessage("not-enchanted"));
                                 return false;
                             }
 
@@ -185,60 +185,58 @@ public class Commands implements CommandExecutor {
                             for (Enchantment enchant1 : enchantManager.getEnchantsOnItem(p.getInventory().getItemInMainHand()).keySet()) {
                                 p.sendMessage("§f" + enchant1.name());
                             }
-                        } else {
-                            p.sendMessage("§cThere are 2 options. How hard is it? HAND/ALL");
-                        }
+                        } else
+                            p.sendMessage(configLoader.getMessage("hand-or-all"));
                         break;
                     case "remove":
 
                         // Argument lenght check..
                         if (args.length < 2) {
-                            p.sendMessage("§cNot enough arguments..");
+                            p.sendMessage(configLoader.getMessage("not-enough-args"));
                             return false;
                         } else if (args.length > 2) {
-                            p.sendMessage("§cThat's too much.. stop it.");
+                            p.sendMessage(configLoader.getMessage("too-many-args"));
                             return false;
                         }
 
                         // Empty hand? q.q
                         if (p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-                            p.sendMessage("§cEmpty hand? Well, that's a problem..");
+                            p.sendMessage(configLoader.getMessage("empty-hand"));
                             return false;
                         }
 
                         // Enchanted?
                         if (!enchantManager.isEnchanted(p.getInventory().getItemInMainHand())) {
-                            p.sendMessage("§cItem is not enchanted.. ");
+                            p.sendMessage(configLoader.getMessage("not-enchanted"));
                             return false;
                         }
 
                         // Remove
                         enchantManager.removeEnchant(p.getInventory().getItemInMainHand(), enchantManager.getEnchantByName(args[1]));
-                        p.sendMessage("§6Done. It's gone.");
-
+                        p.sendMessage(configLoader.getMessage("enchants-cleared"));
                         break;
                     case "clear":
 
                         // Argument lenght check..
                         if (args.length > 1) {
-                            p.sendMessage("§cThat's too much.. stop it.");
+                            p.sendMessage(configLoader.getMessage("too-many-args"));
                             return false;
                         }
 
                         // Empty hand? q.q
                         if (p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-                            p.sendMessage("§cEmpty hand? Well, that's a problem..");
+                            p.sendMessage(configLoader.getMessage("empty-hand"));
                             return false;
                         }
 
                         // Enchanted?
                         if (!enchantManager.isEnchanted(p.getInventory().getItemInMainHand())) {
-                            p.sendMessage("§cItem is not enchanted.. ");
+                            p.sendMessage(configLoader.getMessage("not-enchanted"));
                             return false;
                         }
 
                         p.setItemInHand(enchantManager.clearEnchants(p.getInventory().getItemInMainHand()));
-                        p.sendMessage("§6Done. Everything is cleared..");
+                        p.sendMessage(configLoader.getMessage("enchants-cleared"));
 
                         break;
                     case "reload":
@@ -251,7 +249,7 @@ public class Commands implements CommandExecutor {
                         messanger.info(p);
                         break;
                     default:
-                        p.sendMessage("§cNot a command.. try the help page. It helps!");
+                        p.sendMessage(configLoader.getMessage("not-a-command"));
                         return false;
                 }
             }

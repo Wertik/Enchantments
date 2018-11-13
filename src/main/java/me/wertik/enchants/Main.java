@@ -3,6 +3,7 @@ package me.wertik.enchants;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import me.wertik.enchants.commands.Commands;
+import me.wertik.enchants.enchantments.LuckyPenny;
 import me.wertik.enchants.enchantments.blockbreak.Furnace;
 import me.wertik.enchants.enchantments.entitydamage.MoneyMaker;
 import me.wertik.enchants.enchantments.entitydamage.PumpkinReplace;
@@ -136,6 +137,7 @@ public class Main extends JavaPlugin {
         new ThorStrike().hook();
         new PumpkinReplace().hook();
         new MoneyMaker().hook();
+        new LuckyPenny().hook();
 
         info("§aEnchantments loaded");
 

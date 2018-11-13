@@ -1,7 +1,13 @@
-not-enough-args: "§cNot enough arguments.."
-too-many-args: "§cThat's too much.."
-does-not-exist: "§cThat enchant does not exist."
-not-a-number: "§cNot a valid number on the level argument though."
-over-max-level: "§cLevel > max level. That's math. Your's not working."
-given: "§6Given!"
-not-a-command: "§cNot a command.. try the help page. It helps!"
+not-enough-args: "&cNot enough arguments.."
+too-many-args: "&cThat's too much.."
+does-not-exist: "&cThat enchant does not exist."
+not-a-number: "&cNot a valid number on the level argument though."
+over-max-level: "&cLevel > max level. That's math. Your's not working."
+given: "&6Given!"
+not-a-command: "&cNot a command.. try the help page. It helps!"
+empty-hand: '&cEmpty hand? That is a problem.'
+not-enchantable: '&cThat item is not enchantable, what are you trying on me?'
+enchanted: '&6Item enchanted, check out what it does!'
+not-enchanted: '&cThat item is not enchanted.'
+hand-or-all: '&cThere are 2 options. How hard is it? HAND/ALL'
+enchants-cleared: '&6Done, they are all gone.'

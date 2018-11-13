@@ -3,6 +3,7 @@ package me.wertik.enchants.enchantments.entitydamage;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -59,6 +60,8 @@ public class MoneyMaker extends Enchantment {
 
     @Override
     public void onTokenMove(PlayerMoveEvent e, int level) {
+
+        Bukkit.broadcastMessage("Token move.. :");
 
         Player p = e.getPlayer();
 

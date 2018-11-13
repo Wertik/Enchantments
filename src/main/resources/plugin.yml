@@ -1,6 +1,6 @@
 main: me.wertik.enchants.Main
 author: Wertik1206
-version: dev-1.0.3
+version: dev-1.0.3.1
 name: Enchants
 commands:
   enchants:

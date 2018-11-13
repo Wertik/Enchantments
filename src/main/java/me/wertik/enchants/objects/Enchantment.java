@@ -5,6 +5,8 @@ import me.wertik.enchants.handlers.DataHandler;
 import me.wertik.enchants.handlers.EnchantManager;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -67,6 +69,10 @@ public abstract class Enchantment {
         return dataHandler.getWorkableRegionNames(name());
     }
 
+    public List<String> workableWorldNames() {
+        return dataHandler.getWorkableWorldNames(name());
+    }
+
     // Event usage
 
     // Tool
@@ -79,11 +85,19 @@ public abstract class Enchantment {
         return;
     }
 
+    public void onToolDamageIncome(EntityDamageEvent e, int level) {
+        return;
+    }
+
     public void onToolMove(PlayerMoveEvent e, int level) {
         return;
     }
 
     public void onToolInteract(PlayerInteractEvent e, int level) {
+        return;
+    }
+
+    public void onToolDeath(PlayerDeathEvent e, int level) {
         return;
     }
 
@@ -97,11 +111,19 @@ public abstract class Enchantment {
         return;
     }
 
+    public void onTokenDamageIncome(EntityDamageEvent e, int level) {
+        return;
+    }
+
     public void onTokenMove(PlayerMoveEvent e, int level) {
         return;
     }
 
     public void onTokenInteract(PlayerInteractEvent e, int level) {
+        return;
+    }
+
+    public void onTokenDeath(PlayerDeathEvent e, int level) {
         return;
     }
 
@@ -115,11 +137,19 @@ public abstract class Enchantment {
         return;
     }
 
+    public void onArmorDamageIncome(EntityDamageEvent e, int level) {
+        return;
+    }
+
     public void onArmorMove(PlayerMoveEvent e, int level) {
         return;
     }
 
     public void onArmorInteract(PlayerInteractEvent e, int level) {
+        return;
+    }
+
+    public void onArmorDeath(PlayerDeathEvent e, int level) {
         return;
     }
 
