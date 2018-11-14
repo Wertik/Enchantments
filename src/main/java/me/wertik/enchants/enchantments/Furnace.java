@@ -1,4 +1,4 @@
-package me.wertik.enchants.enchantments.blockbreak;
+package me.wertik.enchants.enchantments;
 
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
@@ -40,8 +40,6 @@ public class Furnace extends Enchantment {
     public void onToolBlockBreak(BlockBreakEvent e, int level) {
 
         if (utils.getSmelt((e.getBlock().getType())) != null) {
-
-            e.setDropItems(false);
 
             ItemStack newDrop = new ItemStack(utils.getSmelt((e.getBlock().getType())));
 

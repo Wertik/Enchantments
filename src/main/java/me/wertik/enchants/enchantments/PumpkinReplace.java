@@ -1,4 +1,4 @@
-package me.wertik.enchants.enchantments.entitydamage;
+package me.wertik.enchants.enchantments;
 
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;

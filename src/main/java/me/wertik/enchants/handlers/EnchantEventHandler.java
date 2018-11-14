@@ -178,7 +178,7 @@ public class EnchantEventHandler {
             List<InternEnchant> internEnchants = new ArrayList<>();
 
             for (Enchantment enchant1 : enchants.keySet()) {
-                internEnchants.add(new InternEnchant(item, enchant1, enchants.get(enchant1)));
+                internEnchants.add(new InternEnchant(enchant1, enchants.get(enchant1)));
             }
 
             for (InternEnchant internEnchant : internEnchants) {

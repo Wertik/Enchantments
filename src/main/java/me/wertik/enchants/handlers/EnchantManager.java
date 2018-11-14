@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
@@ -75,6 +76,19 @@ public class EnchantManager {
                 else
                     inv.remove(item);
 
+                break;
+            }
+        }
+    }
+
+    public void consumeArmor(Player p, Enchantment enchant) {
+        Inventory inv = p.getInventory();
+        ItemStack[] contents = {((PlayerInventory) inv).getHelmet(), ((PlayerInventory) inv).getChestplate(), ((PlayerInventory) inv).getLeggings(), ((PlayerInventory) inv).getBoots()};
+
+        // Find the item...
+        for (ItemStack item : contents) {
+            if (hasEnchantment(item, enchant)) {
+                inv.remove(item);
                 break;
             }
         }
@@ -255,7 +269,7 @@ public class EnchantManager {
      * @return Return enchanted item, As new.
      */
 
-    // Todo: config option: apply lore?
+    // Todo: Config option: apply lore?
     public ItemStack enchantItem(@NotNull ItemStack item, @NotNull Enchantment enchant, int level) {
 
         if (!isEnchanted(item)) {

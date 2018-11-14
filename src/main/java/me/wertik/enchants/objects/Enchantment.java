@@ -3,6 +3,7 @@ package me.wertik.enchants.objects;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.handlers.DataHandler;
 import me.wertik.enchants.handlers.EnchantManager;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -157,5 +158,17 @@ public abstract class Enchantment {
 
     public void hook() {
         enchantManager.hookEnchant(this);
+    }
+
+    public void consumeToken(Player p) {
+        enchantManager.consumeToken(p, this);
+    }
+
+    public void consumeTool(Player p) {
+        p.setItemInHand(null);
+    }
+
+    public void consumeArmor(Player p) {
+        enchantManager.consumeArmor(p, this);
     }
 }

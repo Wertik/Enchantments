@@ -1,7 +1,5 @@
 package me.wertik.enchants.enchantments;
 
-import me.wertik.enchants.Main;
-import me.wertik.enchants.handlers.EnchantManager;
 import me.wertik.enchants.objects.Enchantment;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -9,12 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class LuckyPenny extends Enchantment {
-
-    private EnchantManager enchantManager;
-
-    public LuckyPenny() {
-        enchantManager = Main.getInstance().getEnchantManager();
-    }
 
     @Override
     public String name() {
@@ -45,7 +37,7 @@ public class LuckyPenny extends Enchantment {
             e.setCancelled(true);
             p.setHealth(p.getMaxHealth());
             p.sendMessage("§6Today is your lucky day, you live!");
-            enchantManager.consumeToken(p, this);
+            consumeToken(p);
 
             Location location = p.getLocation();
 

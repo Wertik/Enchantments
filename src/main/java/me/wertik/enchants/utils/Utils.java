@@ -73,8 +73,8 @@ public class Utils {
 
     public Material getSmelt(Material block) {
         for (MeltMaterials meltMaterials : MeltMaterials.getMeltMaterials()) {
-            if (meltMaterials.getBlock().equals(block))
-                return meltMaterials.getMelted();
+            if (meltMaterials.getInput().equals(block))
+                return meltMaterials.getResult();
         }
         return null;
     }

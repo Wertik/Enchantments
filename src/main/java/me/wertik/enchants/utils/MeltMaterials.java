@@ -8,12 +8,12 @@ public enum MeltMaterials {
     STONE(Material.STONE, Material.STONE),
     ;
 
-    private Material melted;
-    private Material block;
+    private Material result;
+    private Material input;
 
-    MeltMaterials(Material block, Material melted) {
-        this.melted = melted;
-        this.block = block;
+    MeltMaterials(Material input, Material result) {
+        this.result = result;
+        this.input = input;
     }
 
     public static MeltMaterials[] getMeltMaterials() {
@@ -21,11 +21,11 @@ public enum MeltMaterials {
         return output;
     }
 
-    public Material getMelted() {
-        return melted;
+    public Material getResult() {
+        return result;
     }
 
-    public Material getBlock() {
-        return block;
+    public Material getInput() {
+        return input;
     }
 }
