@@ -6,12 +6,8 @@ import me.mrwener.enchants.nbt.NBTUtils;
 import me.wertik.enchants.ConfigLoader;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
@@ -59,39 +55,6 @@ public class EnchantManager {
 
     public boolean hasEnchantment(ItemStack item, Enchantment enchantment) {
         return getEnchantsOnItem(item).containsKey(enchantment);
-    }
-
-    public void consumeToken(Player p, Enchantment enchant) {
-
-        Inventory newInventory = Bukkit.createInventory(null, 54);
-        newInventory.setItem(p.getInventory().getHeldItemSlot(), null);
-
-        Inventory inv = p.getInventory();
-
-        // Find the item...
-        for (ItemStack item : inv) {
-            if (hasEnchantment(item, enchant)) {
-                if (item.getAmount() > 1)
-                    item.setAmount(item.getAmount() - 1);
-                else
-                    inv.remove(item);
-
-                break;
-            }
-        }
-    }
-
-    public void consumeArmor(Player p, Enchantment enchant) {
-        Inventory inv = p.getInventory();
-        ItemStack[] contents = {((PlayerInventory) inv).getHelmet(), ((PlayerInventory) inv).getChestplate(), ((PlayerInventory) inv).getLeggings(), ((PlayerInventory) inv).getBoots()};
-
-        // Find the item...
-        for (ItemStack item : contents) {
-            if (hasEnchantment(item, enchant)) {
-                inv.remove(item);
-                break;
-            }
-        }
     }
 
     // Return enchants on an item
@@ -257,7 +220,8 @@ public class EnchantManager {
      */
 
     public boolean isEnchantable(Enchantment enchant, ItemStack item) {
-        Bukkit.broadcastMessage(enchant.enchantableItemTypes().toString());
+        if (enchant.enchantableItemTypes().isEmpty())
+            return true;
         return enchant.enchantableItemTypes().contains(item.getType().toString());
     }
 

@@ -6,7 +6,6 @@ import me.wertik.enchants.ConfigLoader;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.objects.Enchantment;
 import me.wertik.enchants.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -110,15 +109,11 @@ public class BookManager {
 
         String enchantName = NBTEditor.getNBT(item, "book");
 
-        Bukkit.broadcastMessage(NBTUtils.strip(enchantName));
-
         return enchantManager.getEnchantByName(NBTUtils.strip(enchantName));
     }
 
     public int getLevelFromBook(ItemStack item) {
         String levelString = NBTUtils.strip(NBTEditor.getNBT(item, "level"));
-
-        Bukkit.broadcastMessage(levelString);
 
         return Integer.valueOf(levelString);
     }

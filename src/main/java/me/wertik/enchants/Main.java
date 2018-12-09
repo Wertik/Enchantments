@@ -10,9 +10,11 @@ import me.wertik.enchants.handlers.EnchantEventHandler;
 import me.wertik.enchants.handlers.EnchantManager;
 import me.wertik.enchants.listeners.EnchantEventListener;
 import me.wertik.enchants.listeners.Inventory;
+import me.wertik.enchants.objects.Enchantment;
 import me.wertik.enchants.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -134,6 +136,10 @@ public class Main extends JavaPlugin {
         new PumpkinReplace().hook();
         new MoneyMaker().hook();
         new LuckyPenny().hook();
+        Enchantment wither = new Wither();
+        wither.hook();
+
+        getServer().getPluginManager().registerEvents((Listener) wither, this);
 
         info("§aEnchantments loaded");
 

@@ -3,6 +3,7 @@ package me.wertik.enchants.objects;
 import me.wertik.enchants.Main;
 import me.wertik.enchants.handlers.DataHandler;
 import me.wertik.enchants.handlers.EnchantManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -10,6 +11,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.List;
 
@@ -161,14 +165,42 @@ public abstract class Enchantment {
     }
 
     public void consumeToken(Player p) {
-        enchantManager.consumeToken(p, this);
+        Inventory newInventory = Bukkit.createInventory(null, 54);
+        newInventory.setItem(p.getInventory().getHeldItemSlot(), null);
+
+        Inventory inv = p.getInventory();
+
+        // Find the item...
+        for (ItemStack item : inv) {
+            if (enchantManager.hasEnchantment(item, this)) {
+                if (item.getAmount() > 1)
+                    item.setAmount(item.getAmount() - 1);
+                else
+                    inv.remove(item);
+                break;
+            }
+        }
     }
 
     public void consumeTool(Player p) {
-        p.setItemInHand(null);
+        if (p.getItemInHand().getAmount() > 1) {
+            ItemStack newTool = p.getItemInHand();
+            p.getItemInHand().setAmount(p.getItemInHand().getAmount() - 1);
+            p.setItemInHand(newTool);
+        } else
+            p.setItemInHand(null);
     }
 
     public void consumeArmor(Player p) {
-        enchantManager.consumeArmor(p, this);
+        Inventory inv = p.getInventory();
+        ItemStack[] contents = {((PlayerInventory) inv).getHelmet(), ((PlayerInventory) inv).getChestplate(), ((PlayerInventory) inv).getLeggings(), ((PlayerInventory) inv).getBoots()};
+
+        // Find the item...
+        for (ItemStack item : contents) {
+            if (enchantManager.hasEnchantment(item, this)) {
+                inv.remove(item);
+                break;
+            }
+        }
     }
 }
